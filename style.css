@@ -1,0 +1,6 @@
+body {font-family: Poppins, sans-serif; background: #fff9f8; color: #333; margin: 0;}
+header {background: linear-gradient(90deg, #d1b7ff, #ffdee9); padding: 1.5rem; text-align: center;}
+nav {display: flex; justify-content: center; gap: 1rem; background: #f9f4ff; padding: 1rem;}
+nav a {text-decoration: none; color: #5c2d91; font-weight: bold;}
+nav a:hover {color: #c55ffc;}
+footer {background: #d1b7ff; text-align: center; padding: 1rem; margin-top: 2rem;}
