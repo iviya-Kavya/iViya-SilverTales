@@ -4,42 +4,155 @@
 <meta charset="utf-8">
 <title>iViya – Silver Tales</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-body { font-family:'Inter',sans-serif; background:#f7f7f7; margin:0; }
-h1 { text-align:center; padding:20px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; padding:20px; }
-.card { background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.1); transition:0.2s; cursor:pointer; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family:'Inter',sans-serif;
+  background:#f7f7f7;
+  margin:0;
+}
+
+/* ----- NAVIGATION BAR (Apple-style transparent blur) ----- */
+nav {
+  display:flex; justify-content:space-between; align-items:center;
+  backdrop-filter: blur(12px); /* frosted glass effect */
+  background: rgba(255, 255, 255, 0.75); /* transparent white */
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+  padding:12px 24px;
+  position:sticky; top:0; z-index:1001;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+nav.scrolled {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+}
+nav .logo {
+  font-size:20px; font-weight:700; color:#333; letter-spacing:1px;
+}
+nav ul {
+  list-style:none; display:flex; margin:0; padding:0; gap:20px;
+}
+nav ul li a {
+  text-decoration:none; color:#444; font-weight:500;
+  padding:6px 8px; border-radius:4px; transition:0.2s;
+}
+nav ul li a:hover { background:rgba(0,0,0,0.05); color:#000; }
+nav ul li a.active {
+  color:#000;
+  font-weight:600;
+  border-bottom:2px solid #000;
+}
+
+/* ----- PAGE CONTENT ----- */
+h1 { text-align:center; padding:24px; margin-top:10px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:18px; padding:20px; }
+.card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 4px rgba(0,0,0,0.1); transition:0.2s; cursor:pointer; }
 .card:hover { transform:translateY(-3px); box-shadow:0 4px 10px rgba(0,0,0,0.15); }
-.card img { width:100%; height:200px; object-fit:cover; display:block; }
-.card .info { padding:12px; }
+.card img { width:100%; height:250px; object-fit:contain; background:#fff; }
+.card .info { padding:14px; }
 .name { font-weight:600; font-size:16px; }
 .price { color:#111; font-weight:700; margin-top:4px; }
 .desc { color:#666; font-size:14px; margin-top:8px; }
 
-/* --- Zoom overlay --- */
+/* ----- ZOOM MODAL ----- */
 #zoomModal {
   position:fixed; top:0; left:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.8); display:none; justify-content:center; align-items:center;
+  background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center;
   z-index:1000;
 }
 #zoomModal img {
-  max-width:90%; max-height:90%; border-radius:8px; box-shadow:0 4px 20px rgba(0,0,0,0.5);
+  max-width:95vw; max-height:95vh; border-radius:10px;
+  box-shadow:0 4px 30px rgba(0,0,0,0.6); object-fit:contain;
 }
-#zoomModal.closeArea { cursor:pointer; }
+
+/* ----- SECTION STYLES ----- */
+section {
+  padding:60px 20px;
+  text-align:center;
+  scroll-margin-top:100px;
+}
+section h2 { font-size:24px; margin-bottom:10px; color:#444; }
+section p { color:#666; max-width:600px; margin:auto; font-size:15px; line-height:1.6; }
+
+/* ----- BUTTONS ----- */
+.btn {
+  background:#444; color:#fff; border:none; border-radius:4px;
+  padding:10px 16px; text-decoration:none; transition:0.2s;
+}
+.btn:hover { background:#000; }
 </style>
 </head>
 <body>
-<h1>iViya — Silver Tales Collection</h1>
-<div id="grid" class="grid"></div>
 
-<!-- Zoom modal -->
-<div id="zoomModal" class="closeArea">
+<!-- NAVIGATION -->
+<nav id="navbar">
+  <div class="logo">iViya ✦ Silver Tales</div>
+  <ul>
+    <li><a href="#home" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://wa.me/919876543210" target="_blank">WhatsApp</a></li>
+    <li><a href="#login">Login</a></li>
+    <li><a href="#signup">Sign Up</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <h1>Welcome to iViya – Silver Tales</h1>
+  <p>Discover timeless handcrafted silver jewellery that tells your story — each piece designed with love and individuality.</p>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2>About Us</h2>
+  <p>At <strong>iViya</strong>, we celebrate the beauty of craftsmanship. Our collections bring together traditional artistry and modern minimalism — perfect for those who treasure elegance with a personal touch.</p>
+</section>
+
+<!-- COLLECTIONS -->
+<section id="collections">
+  <h2>Our Collections</h2>
+  <div id="grid" class="grid"></div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2>Contact Us</h2>
+  <p>For custom orders or wholesale inquiries, reach out at <strong>contact@iviyasilver.com</strong> or message us on WhatsApp.</p>
+  <a class="btn" href="https://wa.me/919876543210" target="_blank">Chat on WhatsApp</a>
+</section>
+
+<!-- LOGIN -->
+<section id="login">
+  <h2>Login</h2>
+  <p><input type="text" placeholder="Email" style="padding:8px;width:250px;"><br><br>
+     <input type="password" placeholder="Password" style="padding:8px;width:250px;"><br><br>
+     <button class="btn">Login</button>
+  </p>
+</section>
+
+<!-- SIGN UP -->
+<section id="signup">
+  <h2>Sign Up</h2>
+  <p><input type="text" placeholder="Name" style="padding:8px;width:250px;"><br><br>
+     <input type="email" placeholder="Email" style="padding:8px;width:250px;"><br><br>
+     <input type="password" placeholder="Password" style="padding:8px;width:250px;"><br><br>
+     <button class="btn">Create Account</button>
+  </p>
+</section>
+
+<!-- ZOOM MODAL -->
+<div id="zoomModal">
   <img id="zoomImage" src="">
 </div>
 
 <script>
 const SHEET_URL = 'https://opensheet.elk.sh/1-ZrGnfPbTtmStHS8kWvQUHt7pnVMUjEb8TK7iloYoBs/Sheet1';
 
+// Load products
 fetch(SHEET_URL)
   .then(res => res.json())
   .then(data => {
@@ -55,27 +168,39 @@ fetch(SHEET_URL)
           <div class="price">₹${p.price || ''}</div>
           <div class="desc">${p.description || ''}</div>
         </div>`;
-      // click-to-zoom
       card.querySelector('img').addEventListener('click', () => showZoom(imgSrc));
       grid.appendChild(card);
     });
-  })
-  .catch(err => {
-    console.error(err);
-    document.getElementById('grid').innerHTML = '<p>Failed to load products.</p>';
   });
 
-// Zoom modal logic
+// Zoom modal
 const zoomModal = document.getElementById('zoomModal');
 const zoomImage = document.getElementById('zoomImage');
-
 function showZoom(src) {
   zoomImage.src = src;
   zoomModal.style.display = 'flex';
 }
+zoomModal.addEventListener('click', () => zoomModal.style.display = 'none');
+document.addEventListener('keydown', e => { if (e.key === 'Escape') zoomModal.style.display = 'none'; });
 
-zoomModal.addEventListener('click', () => {
-  zoomModal.style.display = 'none';
+// Active tab on scroll
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('nav ul li a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    if (pageYOffset >= sectionTop) current = section.getAttribute('id');
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+
+  // Navbar blur intensity changes slightly on scroll
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 60) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
 });
 </script>
 </body>
