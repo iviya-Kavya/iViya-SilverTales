@@ -1,694 +1,397 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>iViya — Silver Tales</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iViya - Silver Tales</title>
+
 <style>
-  :root{
-    --panel:#0b1220;
-    --panel-2:#0f1724;
-    --muted:#9aa4b2;
-    --accent:#d1d5db;
-    --card-bg:#fff;
-    --brand:#222;
-  }
-  html { scroll-behavior: smooth; }
-  body { margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial; background:#f6f7fb; color:#111; }
-
-/* ===== NAV ===== */
-nav{
-  position:sticky; top:0; z-index:1200;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:10px 14px; gap:12px;
-  backdrop-filter: blur(10px);
-  background: rgba(255,255,255,0.75);
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+  color: #222;
 }
 
-/* hamburger */
-.menu-icon{ display:flex; flex-direction:column; gap:4px; width:26px; cursor:pointer; }
-.menu-icon div{ height:3px; background:#333; border-radius:3px; transition:all .25s ease; }
-.menu-icon.active div:nth-child(1){ transform:rotate(45deg) translateY(6px); }
-.menu-icon.active div:nth-child(2){ opacity:0; transform:scaleX(.2); }
-.menu-icon.active div:nth-child(3){ transform:rotate(-45deg) translateY(-6px); }
-
-/* logo */
-.logo { text-align:center; line-height:1; user-select:none; }
-.logo .title { font-weight:700; font-size:18px; color:var(--brand); }
-.logo .tag { display:block; font-size:11px; color:#666; margin-top:2px; letter-spacing:0.6px; }
-
-/* icons */
-.icons { display:flex; gap:12px; align-items:center; font-size:18px; }
-.icon-btn { position:relative; cursor:pointer; background:none; border:none; font-size:18px; padding:6px; border-radius:8px; }
-.badge { position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; font-size:11px; padding:2px 6px; border-radius:999px; }
-
-/* desktop menu (center) */
-.menu { display:none; gap:14px; align-items:center; justify-content:center; }
-.menu a { text-decoration:none; color:#444; padding:6px 10px; border-radius:6px; font-weight:500; }
-@media(min-width:768px){
-  .menu { display:flex; position:static; width:auto; background:transparent; box-shadow:none; }
-  .menu-icon{ display:none; }
+/* Navigation bar */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* mobile menu panel (fixed so it's always visible) */
-.menu-panel{
-  position:fixed; top:60px; left:0; right:0; display:none; flex-direction:column;
-  background:rgba(255,255,255,0.98); box-shadow:0 8px 30px rgba(2,6,23,0.12); z-index:2000;
+.logo {
+  text-align: center;
+  line-height: 1;
 }
-.menu-panel a{ padding:14px; border-bottom:1px solid #eef2f6; color:#222; text-decoration:none; font-weight:600; }
-
-/* ===== PAGE SECTIONS ===== */
-section { padding:56px 18px; text-align:center; scroll-margin-top:90px; }
-h1 { margin:0 0 12px; font-size:26px; color:#222; }
-p.lead { color:#555; max-width:760px; margin:8px auto 0; line-height:1.6; }
-
-/* ===== GRID ===== */
-.grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:16px; padding:18px; max-width:1200px; margin:20px auto; }
-.card { background:var(--card-bg); border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(12,20,30,0.06); position:relative; display:flex; flex-direction:column; }
-.imgwrap{ width:100%; height:260px; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-.card img{ width:100%; height:100%; object-fit:contain; display:block; }
-.info { padding:12px 14px 16px; flex:1; display:flex; flex-direction:column; gap:8px; }
-.name{ font-weight:700; font-size:15px; color:#111; }
-.price{ font-weight:700; color:#111; }
-.desc{ color:var(--muted); font-size:13px; flex:1; }
-
-/* heart on card */
-.heart-btn{
-  position:absolute; top:12px; right:12px; z-index:4; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.9); box-shadow:0 6px 14px rgba(10,12,20,.06);
-  cursor:pointer; border:none; font-size:18px;
+.logo h1 {
+  margin: 0;
+  font-size: 20px;
 }
-.heart-btn.active{ background:#ffeef0; color:#ef4444; }
+.logo p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}
 
-/* add to cart */
-.add-cart { margin-top:8px; border:none; background:#111; color:#fff; padding:8px 10px; border-radius:8px; cursor:pointer; font-weight:600; }
+/* Hamburger menu */
+.menu-icon {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.menu-icon div {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+}
 
-/* ===== SIDE PANELS (dark) ===== */
-.panel-overlay { position:fixed; inset:0; display:none; z-index:1300; }
+.menu {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  flex-direction: column;
+  text-align: center;
+  z-index: 2000;
+}
+
+.menu a {
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+.menu a:hover {
+  background: #f0f0f0;
+}
+
+/* Icons */
+.nav-icons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.icon {
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.icon span {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: crimson;
+  color: white;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 50%;
+}
+
+/* Collections Grid */
+#collections {
+  margin-top: 80px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.product {
+  background: white;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+.product:hover { transform: scale(1.02); }
+
+.product img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.heart {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 18px;
+  color: #aaa;
+}
+.heart.active { color: crimson; }
+
+.btn {
+  margin-top: 8px;
+  background: #222;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn:hover { background: #444; }
+
+/* Product Detail View */
+#productDetail {
+  display: none;
+  padding: 20px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  color: #555;
+}
+
+.gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.detail-img {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Right-side panels (Wishlist & Cart) */
 .side-panel {
-  position:fixed; top:0; right:0; height:100vh; width:380px; max-width:94vw;
-  transform:translateX(110%); transition:transform .28s cubic-bezier(.2,.9,.25,1);
-  background:var(--panel); color:var(--accent); z-index:1400; box-shadow:-20px 0 60px rgba(2,6,23,.6);
-  display:flex; flex-direction:column;
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 350px;
+  height: 100%;
+  background: #111;
+  color: white;
+  padding: 20px;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.4);
+  transition: right 0.3s ease;
+  overflow-y: auto;
+  z-index: 3000;
 }
-.side-panel.open{ transform:translateX(0); }
-.panel-head { padding:18px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.04); }
-.panel-head h3{ margin:0; font-size:18px; color:#fff; }
-.panel-body{ padding:12px; overflow:auto; flex:1; }
-.panel-item{ display:flex; gap:10px; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.03); }
-.panel-item img{ width:64px; height:64px; object-fit:contain; border-radius:8px; background:#fff; padding:6px; }
-.panel-item .meta{ flex:1; }
-.panel-item .meta .pn{ font-weight:600; color:#fff; }
-.panel-item .meta .pm{ color:var(--muted); font-size:13px; margin-top:6px; }
-.qty-controls{ display:flex; gap:8px; align-items:center; margin-top:6px; }
-.qty-controls button{ width:30px; height:30px; border-radius:6px; border:none; background:#111; color:#fff; cursor:pointer; }
-.remove-btn{ background:transparent; color:#ef9a9a; border:none; cursor:pointer; font-weight:600; }
-.panel-footer{ padding:12px; border-top:1px solid rgba(255,255,255,0.03); display:flex; gap:8px; align-items:center; justify-content:space-between; }
-
-/* ===== PRODUCT DETAIL (SLIDING SECTION) ===== */
-.detail-wrap {
-  position:fixed; left:0; right:0; bottom:-100%; height:100vh; background:#fff; z-index:1500;
-  transition: transform .35s cubic-bezier(.2,.9,.25,1);
-  transform: translateY(100%);
-  display:flex; flex-direction:column;
-}
-.detail-wrap.open { transform: translateY(0%); }
-.detail-header { display:flex; align-items:center; justify-content:space-between; padding:18px; border-bottom:1px solid #eee; }
-.detail-body { padding:18px; overflow:auto; flex:1; display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start; justify-content:center; }
-.detail-gallery { flex:0 0 520px; max-width:520px; min-width:300px; display:flex; flex-direction:column; gap:10px; align-items:center; }
-.detail-main { width:100%; height:440px; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.08); }
-.detail-main img{ width:100%; height:100%; object-fit:contain; }
-.detail-thumbs { display:flex; gap:8px; overflow:auto; padding-top:6px; }
-.detail-thumbs img{ width:72px; height:72px; object-fit:contain; border-radius:8px; background:#fff; cursor:pointer; border:2px solid transparent; }
-.detail-thumbs img.active{ border-color:#111; }
-
-.detail-info { flex:1 1 380px; max-width:700px; min-width:260px; display:flex; flex-direction:column; gap:12px; }
-.detail-title { font-size:20px; font-weight:700; color:#111; }
-.detail-price { font-weight:800; color:#111; font-size:18px; }
-.detail-desc { color:#666; line-height:1.6; }
-.detail-actions { display:flex; gap:12px; align-items:center; margin-top:6px; }
-
-/* small screens */
-@media(max-width:900px){
-  .detail-body { flex-direction:column; align-items:center; }
-  .detail-gallery{ width:100%; max-width:720px; }
-  .detail-main{ height:320px; }
-  .detail-thumbs img{ width:60px; height:60px;}
+.side-panel.active { right: 0; }
+.side-panel h2 { margin-top: 0; }
+.side-panel img {
+  width: 60px; height: 60px; object-fit: cover; border-radius: 6px;
 }
 
-/* tiny */
-@media(max-width:420px){
-  .imgwrap{ height:200px; }
-  .detail-main{ height:260px; }
-  .detail-gallery{ padding:8px; }
+/* Responsive */
+@media(max-width:600px){
+  .detail-img { width: 90%; }
 }
 </style>
 </head>
+
 <body>
 
-<!-- NAV -->
+<!-- Navigation -->
 <nav>
-  <div class="menu-icon" id="menuToggle" aria-label="Toggle menu" title="Menu">
+  <div class="menu-icon" onclick="toggleMenu()">
     <div></div><div></div><div></div>
   </div>
-
-  <div class="logo" aria-hidden="true">
-    <div class="title">iViya</div>
-    <div class="tag">Silver Tales</div>
+  <div class="logo">
+    <h1>iViya</h1>
+    <p>Silver Tales</p>
   </div>
-
-  <div style="display:flex;align-items:center;gap:12px">
-    <div class="menu" id="desktopMenu">
-      <a href="#home">Home</a>
-      <a href="#about">About</a>
-      <a href="#collections">Collections</a>
-      <a href="#login">Login</a>
-      <a href="#signup">Sign Up</a>
-      <a href="https://wa.me/919876543210" target="_blank">WhatsApp</a>
-      <a href="#contact">Contact</a>
-    </div>
-
-    <div class="icons">
-      <button class="icon-btn" id="wishToggle" title="Wishlist">❤️ <span id="wishCount" class="badge" style="display:none">0</span></button>
-      <button class="icon-btn" id="cartToggle" title="Cart">🛍️ <span id="cartCount" class="badge" style="display:none">0</span></button>
-    </div>
+  <div class="nav-icons">
+    <div class="icon" onclick="toggleWishlist()">❤️<span id="wishCount">0</span></div>
+    <div class="icon" onclick="toggleCart()">🛍️<span id="cartCount">0</span></div>
   </div>
 </nav>
 
-<!-- mobile menu (fixed) -->
-<div class="menu-panel" id="menuPanel" role="menu" aria-hidden="true">
-  <a href="#home">Home</a>
-  <a href="#about">About</a>
-  <a href="#collections">Collections</a>
-  <a href="#login">Login</a>
-  <a href="#signup">Sign Up</a>
-  <a href="https://wa.me/919876543210" target="_blank">WhatsApp</a>
-  <a href="#contact">Contact</a>
+<div class="menu" id="menu">
+  <a href="#">Home</a>
+  <a href="#">About</a>
+  <a href="#">Collections</a>
+  <a href="#">Login</a>
+  <a href="#">Sign Up</a>
+  <a href="https://wa.me/919000000000" target="_blank">WhatsApp</a>
+  <a href="#">Contact</a>
 </div>
 
-<!-- PAGE -->
-<section id="home">
-  <h1>Welcome to iViya — Silver Tales</h1>
-  <p class="lead">Discover handcrafted silver jewellery. Update products from your Google Sheet and this page will reflect them automatically.</p>
-</section>
+<!-- Collections -->
+<section id="collections"></section>
 
-<section id="about">
-  <h2>About</h2>
-  <p class="lead">At iViya we combine handcrafted techniques with modern minimalism to create pieces that last a lifetime.</p>
-</section>
+<!-- Product Detail Section -->
+<section id="productDetail"></section>
 
-<section id="collections">
-  <h2>Collections</h2>
-  <div id="grid" class="grid" aria-live="polite"></div>
-</section>
+<!-- Wishlist Panel -->
+<div class="side-panel" id="wishlistPanel">
+  <h2>❤️ Wishlist</h2>
+  <div id="wishlistItems"></div>
+</div>
 
-<section id="contact">
-  <h2>Contact</h2>
-  <p class="lead">Email: <strong>contact@iviyasilver.com</strong> • WhatsApp: <a href="https://wa.me/919876543210" target="_blank">Chat</a></p>
-</section>
-
-<section id="login"><h2>Login</h2></section>
-<section id="signup"><h2>Sign Up</h2></section>
-
-<!-- overlay for side panels -->
-<div class="panel-overlay" id="panelOverlay" style="display:none;"></div>
-
-<!-- WISHLIST PANEL -->
-<aside class="side-panel" id="wishPanel" aria-hidden="true">
-  <div class="panel-head">
-    <h3>Wishlist</h3>
-    <button class="icon-btn" id="closeWish" style="color:var(--accent)">✕</button>
-  </div>
-  <div class="panel-body" id="wishBody"><p style="color:var(--muted)">Your wishlist is empty.</p></div>
-  <div class="panel-footer" id="wishFooter" style="display:none">
-    <div style="color:var(--muted)">Items</div>
-    <div><button class="checkout-btn" id="wishCheckout">View / Proceed</button></div>
-  </div>
-</aside>
-
-<!-- CART PANEL -->
-<aside class="side-panel" id="cartPanel" aria-hidden="true">
-  <div class="panel-head">
-    <h3>Cart</h3>
-    <button class="icon-btn" id="closeCart" style="color:var(--accent)">✕</button>
-  </div>
-  <div class="panel-body" id="cartBody"><p style="color:var(--muted)">Your cart is empty.</p></div>
-  <div class="panel-footer" id="cartFooter" style="display:none">
-    <div class="total" id="cartTotal">₹0</div>
-    <div><button class="checkout-btn" id="checkoutBtn">Checkout</button></div>
-  </div>
-</aside>
-
-<!-- PRODUCT DETAIL (slides up and covers) -->
-<div class="detail-wrap" id="detailWrap" aria-hidden="true">
-  <div class="detail-header">
-    <div style="display:flex;gap:12px;align-items:center">
-      <button class="icon-btn" id="detailBack">← Back</button>
-      <div id="detailTitle" style="font-weight:700"></div>
-    </div>
-    <div id="detailActions" style="display:flex;gap:8px;align-items:center">
-      <button class="icon-btn" id="detailWish">♡</button>
-      <button class="add-cart" id="detailAdd">Add to cart</button>
-    </div>
-  </div>
-
-  <div class="detail-body">
-    <div class="detail-gallery">
-      <div class="detail-main"><img id="detailMainImg" src="" alt=""></div>
-      <div class="detail-thumbs" id="detailThumbs"></div>
-    </div>
-
-    <div class="detail-info">
-      <div id="detailName" class="detail-title"></div>
-      <div id="detailPrice" class="detail-price"></div>
-      <div id="detailDesc" class="detail-desc"></div>
-      <div class="detail-actions">
-        <div style="display:flex;gap:8px">
-          <button class="add-cart" id="detailAddCart">Add to cart</button>
-          <div style="display:flex;align-items:center;gap:8px;color:var(--muted)"><span>Qty in cart:</span><strong id="detailQty">0</strong></div>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Cart Panel -->
+<div class="side-panel" id="cartPanel">
+  <h2>🛍️ Cart</h2>
+  <div id="cartItems"></div>
 </div>
 
 <script>
-/* -------------------------
-   CONFIG
-------------------------- */
-const SHEET_URL = 'https://opensheet.elk.sh/1-ZrGnfPbTtmStHS8kWvQUHt7pnVMUjEb8TK7iloYoBs/Sheet1';
-const LS_WISH = 'iv_wishlist';
-const LS_CART = 'iv_cart';
+const sheetURL = "https://opensheet.elk.sh/1-ZrGnfPbTtmStHS8kWvQUHt7pnVMUjEb8TK7iloYoBs/Sheet1";
+let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 
-/* -------------------------
-   UTILS
-------------------------- */
-function fmtINR(n){
-  const num = Number(n) || 0;
-  return new Intl.NumberFormat('en-IN', { style:'currency', currency:'INR', maximumFractionDigits:0 }).format(num);
-}
-function uidFor(p){ return (p.sku || p.id || p.name || Math.random().toString(36).slice(2,9)).toString(); }
+async function loadProducts() {
+  const res = await fetch(sheetURL);
+  const data = await res.json();
+  const container = document.getElementById('collections');
+  container.innerHTML = "";
 
-/* -------------------------
-   localStorage helpers
-------------------------- */
-function loadWishlist(){ try { return JSON.parse(localStorage.getItem(LS_WISH) || '[]'); } catch(e){ return []; } }
-function saveWishlist(list){ localStorage.setItem(LS_WISH, JSON.stringify(list)); updateWishBadge(); }
-function loadCart(){ try { return JSON.parse(localStorage.getItem(LS_CART) || '{}'); } catch(e){ return {}; } }
-function saveCart(obj){ localStorage.setItem(LS_CART, JSON.stringify(obj)); updateCartBadge(); }
-
-/* -------------------------
-   UI references & badges
-------------------------- */
-const wishToggle = document.getElementById('wishToggle');
-const cartToggle = document.getElementById('cartToggle');
-const wishCountEl = document.getElementById('wishCount');
-const cartCountEl = document.getElementById('cartCount');
-const wishPanel = document.getElementById('wishPanel');
-const cartPanel = document.getElementById('cartPanel');
-const panelOverlay = document.getElementById('panelOverlay');
-
-function updateWishBadge(){
-  const list = loadWishlist();
-  if(list.length) { wishCountEl.style.display='inline-block'; wishCountEl.textContent = list.length; }
-  else { wishCountEl.style.display='none'; }
-}
-function updateCartBadge(){
-  const cart = loadCart();
-  const totalQty = Object.values(cart).reduce((s,it)=> s + (it.qty||0), 0);
-  if(totalQty) { cartCountEl.style.display='inline-block'; cartCountEl.textContent = totalQty; }
-  else { cartCountEl.style.display='none'; }
-}
-function openPanel(panel){
-  panelOverlay.style.display='block';
-  panel.classList.add('open');
-  panel.setAttribute('aria-hidden','false');
-}
-function closePanels(){
-  panelOverlay.style.display='none';
-  wishPanel.classList.remove('open');
-  cartPanel.classList.remove('open');
-  wishPanel.setAttribute('aria-hidden','true');
-  cartPanel.setAttribute('aria-hidden','true');
-}
-
-/* overlay handlers */
-panelOverlay.addEventListener('click', closePanels);
-document.getElementById('closeWish').addEventListener('click', closePanels);
-document.getElementById('closeCart').addEventListener('click', closePanels);
-
-/* top icons */
-wishToggle.addEventListener('click', () => {
-  if(wishPanel.classList.contains('open')) closePanels();
-  else { populateWishPanel(); openPanel(wishPanel); }
-});
-cartToggle.addEventListener('click', () => {
-  if(cartPanel.classList.contains('open')) closePanels();
-  else { populateCartPanel(); openPanel(cartPanel); }
-});
-
-/* menu toggle */
-const menuToggle = document.getElementById('menuToggle');
-const menuPanel = document.getElementById('menuPanel');
-menuToggle.addEventListener('click', ()=>{
-  menuToggle.classList.toggle('active');
-  if(menuPanel.style.display === 'flex'){ menuPanel.style.display = 'none'; }
-  else { menuPanel.style.display = 'flex'; menuPanel.style.flexDirection='column'; }
-});
-
-/* auto-close anchors to ensure panels closed */
-document.querySelectorAll('.menu-panel a, .menu a').forEach(a=>{
-  a.addEventListener('click', ()=> { menuPanel.style.display='none'; menuToggle.classList.remove('active'); closePanels(); });
-});
-
-/* -------------------------
-   Load products & render grid
-------------------------- */
-const grid = document.getElementById('grid');
-let PRODUCTS = {}; // map id -> product object for detail view
-
-fetch(SHEET_URL)
-  .then(r => r.json())
-  .then(data => {
-    data.forEach(p=>{
-      const id = uidFor(p);
-      // build gallery array
-      let gallery = [];
-      if(p.image_gallery && String(p.image_gallery).trim()){
-        gallery = String(p.image_gallery).split(',').map(s=>s.trim()).filter(Boolean);
-      }
-      if(!gallery.length && p.image_url) gallery = [p.image_url];
-      if(!gallery.length && p.image) gallery = [p.image];
-
-      const name = p.name || p.title || 'Untitled';
-      const price = Number(p.price) || 0;
-      const desc = p.description || p.desc || '';
-
-      const item = { id, name, price, desc, gallery };
-      PRODUCTS[id] = item;
-
-      // card
-      const el = document.createElement('div'); el.className='card';
-      el.innerHTML = `
-        <button class="heart-btn" data-id="${id}" title="Add to wishlist">♡</button>
-        <div class="imgwrap"><img src="${gallery[0] || 'https://via.placeholder.com/400x300?text=No+Image'}" alt="${name}" loading="lazy"></div>
-        <div class="info">
-          <div class="name">${name}</div>
-          <div class="price">${fmtINR(price)}</div>
-          <div class="desc">${desc}</div>
-          <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-            <button class="add-cart" data-id="${id}">Add to cart</button>
-          </div>
-        </div>
-      `;
-      grid.appendChild(el);
-
-      // heart
-      const heart = el.querySelector('.heart-btn');
-      function refreshHeart(){
-        const wish = loadWishlist();
-        const exists = wish.find(x=> x.id === id);
-        heart.classList.toggle('active', !!exists);
-        heart.textContent = exists ? '❤️' : '♡';
-      }
-      refreshHeart();
-      heart.addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        let list = loadWishlist();
-        const exists = list.find(x=> x.id === id);
-        if(exists){ list = list.filter(x=> x.id !== id); }
-        else list.push({ id:item.id, name:item.name, price:item.price, img:item.gallery[0] || '' });
-        saveWishlist(list);
-        refreshHeart();
-      });
-
-      // add to cart
-      const addBtn = el.querySelector('.add-cart');
-      addBtn.addEventListener('click', (ev)=>{
-        ev.stopPropagation();
-        const cart = loadCart();
-        if(!cart[item.id]) cart[item.id] = { id:item.id, name:item.name, price:item.price, img:item.gallery[0]||'', qty:0 };
-        cart[item.id].qty = (cart[item.id].qty || 0) + 1;
-        saveCart(cart);
-      });
-
-      // open product detail on card click
-      el.addEventListener('click', ()=> showProductDetail(item.id));
-    });
-
-    updateWishBadge();
-    updateCartBadge();
-  })
-  .catch(err=>{
-    console.error('Failed to load sheet', err);
-    grid.innerHTML = '<p style="grid-column:1/-1;color:#777">Failed to load products.</p>';
-  });
-
-/* -------------------------
-   Panel population
-------------------------- */
-function populateWishPanel(){
-  const container = document.getElementById('wishBody');
-  const list = loadWishlist();
-  container.innerHTML = '';
-  if(!list.length){
-    container.innerHTML = '<p style="color:var(--muted)">Your wishlist is empty.</p>';
-    document.getElementById('wishFooter').style.display='none';
-    return;
-  }
-  document.getElementById('wishFooter').style.display='flex';
-  list.forEach(item=>{
-    const row = document.createElement('div'); row.className='panel-item';
-    row.innerHTML = `
-      <img src="${item.img}" alt="${item.name}">
-      <div class="meta">
-        <div class="pn">${item.name}</div>
-        <div class="pm">${fmtINR(item.price)}</div>
-        <div style="margin-top:8px"><button class="remove-btn" data-id="${item.id}">Remove</button></div>
-      </div>
+  data.forEach((product, index) => {
+    const card = document.createElement('div');
+    card.className = "product";
+    card.innerHTML = `
+      <div class="heart ${wishlist.find(i=>i.sku===product.sku)?'active':''}" onclick="toggleWishlistItem(event, ${index})">♥</div>
+      <img src="${product.image_url}" alt="${product.name}">
+      <h3>${product.name}</h3>
+      <p>₹${product.price}</p>
+      <button class="btn" onclick="addToCart('${product.sku}', event)">Add to Cart</button>
     `;
-    container.appendChild(row);
-  });
-  container.querySelectorAll('.remove-btn').forEach(btn=>{
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      let list = loadWishlist();
-      list = list.filter(x=> x.id !== id);
-      saveWishlist(list);
-      populateWishPanel();
+    card.addEventListener('click', e => {
+      if(!e.target.classList.contains('btn') && !e.target.classList.contains('heart')){
+        showProductDetail(product);
+      }
     });
+    container.appendChild(card);
+  });
+  updateCounts();
+}
+loadProducts();
+
+function toggleMenu() {
+  const m = document.getElementById('menu');
+  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+}
+document.querySelectorAll('#menu a').forEach(a => a.addEventListener('click', () => document.getElementById('menu').style.display='none'));
+
+function toggleWishlistItem(e, index){
+  e.stopPropagation();
+  fetch(sheetURL).then(r=>r.json()).then(data=>{
+    const product = data[index];
+    const exists = wishlist.find(i=>i.sku===product.sku);
+    if(exists) wishlist = wishlist.filter(i=>i.sku!==product.sku);
+    else wishlist.push(product);
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    loadProducts();
   });
 }
 
-function populateCartPanel(){
-  const container = document.getElementById('cartBody');
-  const cart = loadCart();
-  container.innerHTML = '';
-  const ids = Object.keys(cart);
-  if(!ids.length){
-    container.innerHTML = '<p style="color:var(--muted)">Your cart is empty.</p>';
-    document.getElementById('cartFooter').style.display='none';
-    return;
-  }
-  document.getElementById('cartFooter').style.display='flex';
-  let total = 0;
-  ids.forEach(id=>{
-    const it = cart[id];
-    total += (it.price || 0) * (it.qty || 0);
-    const row = document.createElement('div'); row.className='panel-item';
-    row.innerHTML = `
-      <img src="${it.img}" alt="${it.name}">
-      <div class="meta">
-        <div class="pn">${it.name}</div>
-        <div class="pm">${fmtINR(it.price)} • Qty: <strong id="q-${id}">${it.qty}</strong></div>
-        <div class="qty-controls" style="margin-top:8px">
-          <button class="dec" data-id="${id}">−</button>
-          <button class="inc" data-id="${id}">+</button>
-          <button class="remove-btn" data-id="${id}" style="margin-left:12px">Remove</button>
-        </div>
+function addToCart(sku, e){
+  e.stopPropagation();
+  fetch(sheetURL).then(r=>r.json()).then(data=>{
+    const product = data.find(i=>i.sku===sku);
+    const item = cart.find(i=>i.sku===sku);
+    if(item) item.qty++;
+    else cart.push({...product, qty:1});
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCounts();
+  });
+}
+
+function updateCounts(){
+  document.getElementById('wishCount').innerText = wishlist.length;
+  document.getElementById('cartCount').innerText = cart.reduce((a,b)=>a+b.qty,0);
+}
+
+function toggleWishlist(){
+  document.getElementById('wishlistPanel').classList.toggle('active');
+  renderWishlist();
+}
+function toggleCart(){
+  document.getElementById('cartPanel').classList.toggle('active');
+  renderCart();
+}
+
+function renderWishlist(){
+  const container = document.getElementById('wishlistItems');
+  container.innerHTML = wishlist.length ? wishlist.map(i=>`
+    <div style="display:flex;align-items:center;gap:10px;margin:10px 0;">
+      <img src="${i.image_url}">
+      <div>${i.name}<br>₹${i.price}</div>
+    </div>
+  `).join('') : "<p>No items yet ❤️</p>";
+}
+
+function renderCart(){
+  const container = document.getElementById('cartItems');
+  container.innerHTML = cart.length ? cart.map(i=>`
+    <div style="display:flex;align-items:center;gap:10px;margin:10px 0;">
+      <img src="${i.image_url}">
+      <div style="flex:1">${i.name}<br>₹${i.price}</div>
+      <div>
+        <button onclick="changeQty('${i.sku}',-1)">-</button>
+        ${i.qty}
+        <button onclick="changeQty('${i.sku}',1)">+</button>
       </div>
-    `;
-    container.appendChild(row);
-  });
-  document.getElementById('cartTotal').textContent = fmtINR(total);
-
-  container.querySelectorAll('.inc').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      const id = b.dataset.id;
-      const cartObj = loadCart();
-      cartObj[id].qty = (cartObj[id].qty || 0) + 1;
-      saveCart(cartObj);
-      populateCartPanel();
-    });
-  });
-  container.querySelectorAll('.dec').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      const id = b.dataset.id;
-      const cartObj = loadCart();
-      cartObj[id].qty = Math.max(0, (cartObj[id].qty || 0) - 1);
-      if(cartObj[id].qty === 0) delete cartObj[id];
-      saveCart(cartObj);
-      populateCartPanel();
-    });
-  });
-  container.querySelectorAll('.remove-btn').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      const id = b.dataset.id;
-      const cartObj = loadCart();
-      delete cartObj[id];
-      saveCart(cartObj);
-      populateCartPanel();
-    });
-  });
+    </div>
+  `).join('') : "<p>Your cart is empty 🛍️</p>";
 }
 
-/* checkout placeholder */
-document.getElementById('checkoutBtn').addEventListener('click', ()=>{
-  const cart = loadCart();
-  if(Object.keys(cart).length === 0) return alert('Cart is empty');
-  alert('Checkout placeholder — implement your checkout flow. Total: ' + document.getElementById('cartTotal').textContent);
-});
-document.getElementById('wishCheckout').addEventListener('click', ()=> {
-  const list = loadWishlist();
-  if(list.length === 0) return alert('Wishlist empty');
-  alert('Wishlist has ' + list.length + ' items. Implement move-to-cart or contact flow.');
-});
-
-/* -------------------------
-   Product DETAIL logic (slide-up section)
-------------------------- */
-const detailWrap = document.getElementById('detailWrap');
-const detailTitle = document.getElementById('detailTitle');
-const detailName = document.getElementById('detailName');
-const detailPrice = document.getElementById('detailPrice');
-const detailDesc = document.getElementById('detailDesc');
-const detailMainImg = document.getElementById('detailMainImg');
-const detailThumbs = document.getElementById('detailThumbs');
-const detailQty = document.getElementById('detailQty');
-const detailBack = document.getElementById('detailBack');
-const detailAdd = document.getElementById('detailAdd');
-const detailAddCart = document.getElementById('detailAddCart');
-const detailWish = document.getElementById('detailWish');
-
-let CURRENT_DETAIL_ID = null;
-function showProductDetail(id){
-  const p = PRODUCTS[id];
-  if(!p) return;
-  CURRENT_DETAIL_ID = id;
-  detailTitle.textContent = p.name;
-  detailName.textContent = p.name;
-  detailPrice.textContent = fmtINR(p.price);
-  detailDesc.textContent = p.desc;
-  // set gallery
-  const gallery = p.gallery && p.gallery.length ? p.gallery : ['https://via.placeholder.com/600x450?text=No+Image'];
-  detailThumbs.innerHTML = '';
-  gallery.forEach((src,i)=>{
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = p.name + ' ' + (i+1);
-    if(i===0) img.classList.add('active');
-    img.addEventListener('click', ()=> {
-      detailMainImg.src = src;
-      detailThumbs.querySelectorAll('img').forEach(im=>im.classList.remove('active'));
-      img.classList.add('active');
-    });
-    detailThumbs.appendChild(img);
-  });
-  detailMainImg.src = gallery[0];
-  // wishlist state in detail
-  refreshDetailWish();
-  // qty in cart
-  const cart = loadCart();
-  detailQty.textContent = cart[id] ? cart[id].qty : 0;
-
-  // open detail (slide up)
-  detailWrap.classList.add('open');
-  detailWrap.setAttribute('aria-hidden','false');
-  // hide mobile menu if open
-  menuPanel.style.display = 'none';
-  menuToggle.classList.remove('active');
+function changeQty(sku, change){
+  const item = cart.find(i=>i.sku===sku);
+  if(!item) return;
+  item.qty += change;
+  if(item.qty<=0) cart = cart.filter(i=>i.sku!==sku);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  updateCounts();
+  renderCart();
 }
 
-/* close detail */
-function closeDetail(){
-  detailWrap.classList.remove('open');
-  detailWrap.setAttribute('aria-hidden','true');
-  CURRENT_DETAIL_ID = null;
+/* Product detail view */
+function showProductDetail(product) {
+  document.getElementById('collections').style.display = 'none';
+  const detail = document.getElementById('productDetail');
+  detail.style.display = 'block';
+
+  const galleryHTML = product.image_gallery
+    ? product.image_gallery.split(',').map(url => 
+        `<img src="${url.trim()}" alt="${product.name}" class="detail-img">`
+      ).join('')
+    : `<img src="${product.image_url}" alt="${product.name}" class="detail-img">`;
+
+  detail.innerHTML = `
+    <button class="back-btn" onclick="backToCollections()">← Back</button>
+    <div class="gallery">${galleryHTML}</div>
+    <h2>${product.name}</h2>
+    <p>${product.description}</p>
+    <h3>₹${product.price}</h3>
+    <button class="btn" onclick="addToCart('${product.sku}', event)">Add to Cart</button>
+  `;
 }
-detailBack.addEventListener('click', closeDetail);
 
-/* detail add to cart/wishlist */
-function refreshDetailWish(){
-  const wish = loadWishlist();
-  const exists = wish.find(x=> x.id === CURRENT_DETAIL_ID);
-  detailWish.textContent = exists ? '❤️' : '♡';
-  detailWish.classList.toggle('active', !!exists);
+function backToCollections() {
+  document.getElementById('productDetail').style.display = 'none';
+  document.getElementById('collections').style.display = 'grid';
 }
-detailWish.addEventListener('click', ()=>{
-  if(!CURRENT_DETAIL_ID) return;
-  let list = loadWishlist();
-  const exists = list.find(x=> x.id === CURRENT_DETAIL_ID);
-  if(exists){
-    list = list.filter(x=> x.id !== CURRENT_DETAIL_ID);
-  } else {
-    const p = PRODUCTS[CURRENT_DETAIL_ID];
-    list.push({ id:p.id, name:p.name, price:p.price, img:p.gallery[0]||'' });
-  }
-  saveWishlist(list);
-  refreshDetailWish();
-});
-detailAdd.addEventListener('click', ()=>{
-  if(!CURRENT_DETAIL_ID) return;
-  const cart = loadCart();
-  const p = PRODUCTS[CURRENT_DETAIL_ID];
-  if(!cart[p.id]) cart[p.id] = { id:p.id, name:p.name, price:p.price, img:p.gallery[0]||'', qty:0 };
-  cart[p.id].qty = (cart[p.id].qty || 0) + 1;
-  saveCart(cart);
-  detailQty.textContent = cart[p.id].qty;
-});
-detailAddCart.addEventListener('click', ()=> detailAdd.click());
-
-/* -------------------------
-   Other UI helpers
-------------------------- */
-updateWishBadge();
-updateCartBadge();
-
-/* image zoom (click main image) */
-detailMainImg.addEventListener('click', ()=> {
-  showZoom(detailMainImg.src);
-});
-
-/* -------------------------
-   Zoom overlay: simple
-------------------------- */
-const zoomModal = document.createElement('div');
-zoomModal.style.position='fixed'; zoomModal.style.inset='0'; zoomModal.style.display='none';
-zoomModal.style.justifyContent='center'; zoomModal.style.alignItems='center';
-zoomModal.style.background='rgba(0,0,0,0.85)'; zoomModal.style.zIndex=1600;
-zoomModal.addEventListener('click', ()=> { zoomModal.style.display='none'; });
-const zoomImg = document.createElement('img');
-zoomImg.style.maxWidth='95vw'; zoomImg.style.maxHeight='95vh'; zoomImg.style.borderRadius='8px';
-zoomImg.style.boxShadow='0 20px 60px rgba(0,0,0,0.6)';
-zoomModal.appendChild(zoomImg);
-document.body.appendChild(zoomModal);
-function showZoom(src){ zoomImg.src = src; zoomModal.style.display='flex'; }
-
-/* close with ESC */
-document.addEventListener('keydown', (e)=> {
-  if(e.key === 'Escape'){
-    closePanels();
-    zoomModal.style.display='none';
-    menuPanel.style.display='none';
-    menuToggle.classList.remove('active');
-    closeDetail();
-  }
-});
-
-/* ensure panels close when navigating anchors */
-document.querySelectorAll('.menu-panel a, .menu a').forEach(a=>{
-  a.addEventListener('click', ()=> { menuPanel.style.display='none'; menuToggle.classList.remove('active'); closePanels(); });
-});
 </script>
 </body>
 </html>
