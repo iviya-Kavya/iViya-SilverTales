@@ -1,397 +1,706 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iViya - Silver Tales</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>iViya — Silver Tales</title>
 
 <style>
+:root{
+  --bg:#0b0b0c;          /* page background */
+  --card:#0f1012;        /* card background */
+  --panel:#0b1220;       /* side panel */
+  --muted:#9aa4b2;
+  --silver:#bfc6ca;      /* silver highlights */
+  --accent:#e6e9eb;
+  --glass: rgba(255,255,255,0.04);
+  --glow: rgba(190,196,200,0.06);
+}
+*{box-sizing:border-box}
+html { scroll-behavior:smooth; }
 body {
-  margin: 0;
-  font-family: "Poppins", sans-serif;
-  background: #fafafa;
-  color: #222;
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background: linear-gradient(0deg,#070708 0%, #0b0b0d 100%);
+  color:var(--accent);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-/* Navigation bar */
+/* ===== NAV BAR ===== */
 nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position:sticky; top:0; z-index:1200;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 14px;
+  backdrop-filter: blur(8px);
+  background: rgba(6,6,7,0.55);
+  border-bottom:1px solid rgba(255,255,255,0.03);
 }
 
-.logo {
-  text-align: center;
-  line-height: 1;
-}
-.logo h1 {
-  margin: 0;
-  font-size: 20px;
-}
-.logo p {
-  margin: 0;
-  font-size: 12px;
-  color: #666;
+/* hamburger */
+.menu-icon{ display:flex; flex-direction:column; gap:5px; width:26px; cursor:pointer; }
+.menu-icon div{ height:3px; background:var(--silver); border-radius:3px; transition:all .28s cubic-bezier(.2,.9,.25,1); }
+.menu-icon.active div:nth-child(1){ transform:rotate(45deg) translateY(6px); }
+.menu-icon.active div:nth-child(2){ opacity:0; transform:scaleX(.2); }
+.menu-icon.active div:nth-child(3){ transform:rotate(-45deg) translateY(-6px); }
+
+/* logo centered */
+.logo { text-align:center; line-height:1; user-select:none; flex:1; }
+.logo .title { font-weight:700; font-size:18px; color:var(--accent); }
+.logo .tag { font-size:11px; color:var(--muted); margin-top:2px; letter-spacing:0.8px; }
+
+/* icons at right */
+.controls { display:flex; gap:12px; align-items:center; justify-content:flex-end; width:140px; }
+.icon-btn{ position:relative; background:transparent; border:none; color:var(--silver); font-size:20px; cursor:pointer; padding:6px; border-radius:8px; }
+.icon-badge{ position:absolute; top:-6px; right:-6px; background:#ef4444; color:#fff; font-size:11px; padding:2px 6px; border-radius:999px; display:none; }
+
+/* desktop menu (in center) */
+.menu-desktop { display:none; gap:12px; justify-content:center; }
+.menu-desktop a { color:var(--silver); text-decoration:none; padding:6px 10px; border-radius:6px; font-weight:500; }
+@media(min-width:880px){
+  .menu-desktop{ display:flex; position:static; }
+  .menu-icon{ display:none; }
 }
 
-/* Hamburger menu */
-.menu-icon {
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+/* ===== LEFT SLIDE MENU (mobile) ===== */
+.menu-left {
+  position:fixed; top:64px; left:0; width:72%; max-width:320px;
+  transform:translateX(-110%); transition:transform .35s cubic-bezier(.2,.9,.25,1);
+  background: linear-gradient(180deg, rgba(18,18,19,0.95), rgba(12,12,13,0.95));
+  box-shadow: 10px 20px 60px rgba(0,0,0,0.6);
+  z-index:2000; color:var(--accent); padding:12px 10px; border-right:1px solid rgba(255,255,255,0.02);
 }
-.menu-icon div {
-  width: 25px;
-  height: 3px;
-  background: #333;
-  border-radius: 2px;
-}
+.menu-left.open { transform:translateX(0); }
+.menu-left a { display:block; padding:12px 14px; color:var(--silver); text-decoration:none; border-radius:8px; font-weight:600; }
+.menu-left a:hover { background:var(--glow); color:var(--accent); }
 
-.menu {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  width: 100%;
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  display: none;
-  flex-direction: column;
-  text-align: center;
-  z-index: 2000;
-}
+/* ===== PAGE LAYOUT ===== */
+main { max-width:1200px; margin:24px auto 120px; padding:0 14px; }
 
-.menu a {
-  padding: 10px;
-  text-decoration: none;
-  color: #333;
-  display: block;
-}
-.menu a:hover {
-  background: #f0f0f0;
-}
+/* header */
+.header-hero { text-align:center; padding:36px 10px; }
+.header-hero h1 { margin:0; font-size:28px; color:var(--accent); }
+.header-hero p { margin:10px auto 0; color:var(--muted); max-width:760px; }
 
-/* Icons */
-.nav-icons {
-  display: flex;
-  gap: 15px;
-  align-items: center;
+/* ===== COLLECTIONS + CATEGORY TABS ===== */
+.collection-header { display:flex; flex-direction:column; gap:12px; align-items:center; margin-top:10px; }
+.cat-tabs { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+.cat-btn {
+  padding:8px 12px; border-radius:999px; background:transparent; border:1px solid rgba(255,255,255,0.03);
+  color:var(--silver); cursor:pointer; font-weight:600; transition:all .18s;
 }
+.cat-btn.active { background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); box-shadow:0 6px 20px rgba(20,20,22,0.4); color:#fff; transform:translateY(-2px); }
 
-.icon {
-  font-size: 20px;
-  cursor: pointer;
-  position: relative;
+/* grid */
+.grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:18px; margin-top:18px; }
+.card {
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:12px; overflow:hidden; padding:10px; position:relative; box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  transition:transform .18s ease, box-shadow .18s ease;
 }
+.card:hover{ transform:translateY(-6px); box-shadow:0 18px 40px rgba(0,0,0,0.7); }
 
-.icon span {
-  position: absolute;
-  top: -8px;
-  right: -10px;
-  background: crimson;
-  color: white;
-  font-size: 10px;
-  padding: 2px 5px;
-  border-radius: 50%;
-}
+.card .imgwrap{ width:100%; height:220px; background:#08090a; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:8px; }
+.card img{ width:100%; height:100%; object-fit:contain; display:block; }
 
-/* Collections Grid */
-#collections {
-  margin-top: 80px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  padding: 20px;
-}
+.card .info{ padding:10px 6px; display:flex; flex-direction:column; gap:8px; }
+.card .name{ color:var(--accent); font-weight:700; }
+.card .price{ color:var(--silver); font-weight:800; }
+.card .desc{ color:var(--muted); font-size:13px; min-height:36px; }
 
-.product {
-  background: white;
-  border-radius: 8px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-  cursor: pointer;
-  position: relative;
-}
-.product:hover { transform: scale(1.02); }
+/* heart */
+.heart-btn{ position:absolute; top:12px; right:12px; width:40px;height:40px;border-radius:999px;background:rgba(255,255,255,0.03); color:var(--silver); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.heart-btn.active{ background:rgba(239,68,68,0.12); color:#ff6b6b; transform:scale(1.05); }
 
-.product img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
+/* add to cart */
+.add-cart { margin-top:6px; background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--accent); padding:8px 10px; border-radius:8px; cursor:pointer; font-weight:700; }
+.add-cart:hover{ background:var(--glow); color:#fff; transform:translateY(-2px); }
 
-.heart {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: 18px;
-  color: #aaa;
-}
-.heart.active { color: crimson; }
+/* ===== RIGHT SIDE PANELS (smooth slide) ===== */
+.overlay { position:fixed; inset:0; background:rgba(0,0,0,0.45); opacity:0; pointer-events:none; transition:opacity .25s; z-index:1300; }
+.overlay.show{ opacity:1; pointer-events:auto; }
 
-.btn {
-  margin-top: 8px;
-  background: #222;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.btn:hover { background: #444; }
-
-/* Product Detail View */
-#productDetail {
-  display: none;
-  padding: 20px;
-  margin-top: 60px;
-  text-align: center;
-}
-
-.back-btn {
-  background: none;
-  border: none;
-  font-size: 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  color: #555;
-}
-
-.gallery {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.detail-img {
-  width: 300px;
-  height: auto;
-  border-radius: 8px;
-}
-
-/* Right-side panels (Wishlist & Cart) */
 .side-panel {
-  position: fixed;
-  top: 0;
-  right: -400px;
-  width: 350px;
-  height: 100%;
-  background: #111;
-  color: white;
-  padding: 20px;
-  box-shadow: -4px 0 10px rgba(0,0,0,0.4);
-  transition: right 0.3s ease;
-  overflow-y: auto;
-  z-index: 3000;
+  position:fixed; top:0; right:0; height:100vh; width:380px; max-width:94vw;
+  transform: translateX(110%); transition: transform .36s cubic-bezier(.2,.9,.25,1), opacity .28s; opacity:0;
+  background:linear-gradient(180deg,var(--panel), #071018); color:var(--accent); z-index:1400; display:flex; flex-direction:column; border-left:1px solid rgba(255,255,255,0.02);
+  box-shadow:-20px 0 60px rgba(0,0,0,0.6);
 }
-.side-panel.active { right: 0; }
-.side-panel h2 { margin-top: 0; }
-.side-panel img {
-  width: 60px; height: 60px; object-fit: cover; border-radius: 6px;
+.side-panel.open{ transform:translateX(0); opacity:1; }
+.panel-head{ padding:16px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.03); }
+.panel-body{ padding:12px; overflow:auto; flex:1; }
+.panel-item{ display:flex; gap:10px; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.02); }
+.panel-item img{ width:64px; height:64px; object-fit:contain; border-radius:8px; background:#fff; padding:6px; }
+.panel-meta .pn{ font-weight:700; color:#fff; }
+.panel-meta .pm{ color:var(--muted); font-size:13px; }
+
+/* footer */
+.panel-footer{ padding:12px; border-top:1px solid rgba(255,255,255,0.03); display:flex; justify-content:space-between; align-items:center; }
+
+/* ===== PRODUCT DETAIL SLIDE UP ===== */
+.detail-wrap {
+  position:fixed; left:0; right:0; bottom:0; height:100vh; z-index:1500;
+  transform: translateY(110%); transition: transform .36s cubic-bezier(.2,.9,.25,1);
+  background: linear-gradient(180deg,#050607 0%, #0b0b0d 100%); color:var(--accent); padding:14px; display:flex; flex-direction:column;
+}
+.detail-wrap.open{ transform: translateY(0%); }
+.detail-header{ display:flex; justify-content:space-between; align-items:center; padding:8px 6px; border-bottom:1px solid rgba(255,255,255,0.03); }
+.detail-body{ display:flex; gap:18px; padding:12px; overflow:auto; flex:1; flex-wrap:wrap; align-items:flex-start; justify-content:center; }
+
+/* gallery (scroll-snap) */
+.detail-gallery{ flex:0 0 520px; max-width:520px; display:flex; flex-direction:column; gap:10px; align-items:center; }
+.detail-main { width:100%; height:440px; background:#050607; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:10px; }
+.detail-main img{ width:100%; height:100%; object-fit:contain; }
+.detail-thumbs{ display:flex; gap:8px; overflow:auto; padding-top:6px; }
+.detail-thumbs img{ width:72px; height:72px; object-fit:contain; border-radius:8px; background:#fff; padding:6px; cursor:pointer; border:2px solid transparent; }
+.detail-thumbs img.active{ border-color:var(--silver); }
+
+/* detail info */
+.detail-info{ flex:1; min-width:260px; max-width:720px; display:flex; flex-direction:column; gap:10px; }
+.detail-title{ font-size:20px; font-weight:800; color:var(--accent); }
+.detail-price{ font-weight:800; color:var(--silver); font-size:18px; }
+.detail-desc{ color:var(--muted); line-height:1.6; }
+
+/* small screens */
+@media(max-width:900px){
+  .detail-body{ flex-direction:column; align-items:center; }
+  .detail-gallery{ width:100%; max-width:720px; }
+  .detail-main{ height:320px; }
+  .card .imgwrap{ height:180px; }
 }
 
-/* Responsive */
-@media(max-width:600px){
-  .detail-img { width: 90%; }
+/* tiny */
+@media(max-width:420px){
+  nav{ padding:10px; }
+  .menu-left{ width:82%;}
+  .controls{ width:110px; }
+  .detail-main{ height:260px; }
 }
 </style>
 </head>
-
 <body>
 
-<!-- Navigation -->
+<!-- NAV -->
 <nav>
-  <div class="menu-icon" onclick="toggleMenu()">
+  <div class="menu-icon" id="menuToggle" aria-label="Open menu" title="Menu">
     <div></div><div></div><div></div>
   </div>
+
   <div class="logo">
-    <h1>iViya</h1>
-    <p>Silver Tales</p>
+    <div class="title">iViya</div>
+    <div class="tag">Silver Tales</div>
   </div>
-  <div class="nav-icons">
-    <div class="icon" onclick="toggleWishlist()">❤️<span id="wishCount">0</span></div>
-    <div class="icon" onclick="toggleCart()">🛍️<span id="cartCount">0</span></div>
+
+  <div class="controls">
+    <button class="icon-btn" id="wishToggle" title="Wishlist">❤️ <span class="icon-badge" id="wishBadge"></span></button>
+    <button class="icon-btn" id="cartToggle" title="Cart">🛍️ <span class="icon-badge" id="cartBadge"></span></button>
   </div>
 </nav>
 
-<div class="menu" id="menu">
-  <a href="#">Home</a>
-  <a href="#">About</a>
-  <a href="#">Collections</a>
-  <a href="#">Login</a>
-  <a href="#">Sign Up</a>
-  <a href="https://wa.me/919000000000" target="_blank">WhatsApp</a>
-  <a href="#">Contact</a>
-</div>
+<!-- LEFT MENU -->
+<nav class="menu-left" id="leftMenu" aria-hidden="true">
+  <a href="#home" class="menu-link">Home</a>
+  <a href="#about" class="menu-link">About</a>
+  <a href="#collections" class="menu-link">Collections</a>
+  <a href="#login" class="menu-link">Login</a>
+  <a href="#signup" class="menu-link">Sign Up</a>
+  <a href="https://wa.me/WHATSAPP_NUMBER" target="_blank" class="menu-link">WhatsApp</a>
+  <a href="#contact" class="menu-link">Contact</a>
+</nav>
 
-<!-- Collections -->
-<section id="collections"></section>
+<!-- overlay for panels -->
+<div class="overlay" id="overlay"></div>
 
-<!-- Product Detail Section -->
-<section id="productDetail"></section>
+<!-- MAIN -->
+<main>
+  <header class="header-hero" id="home">
+    <h1>iViya — Silver Tales</h1>
+    <p class="lead">Matte black, silver highlights. Handcrafted silver jewellery — add images to your sheet and they appear here.</p>
+  </header>
 
-<!-- Wishlist Panel -->
-<div class="side-panel" id="wishlistPanel">
-  <h2>❤️ Wishlist</h2>
-  <div id="wishlistItems"></div>
-</div>
+  <section id="collections">
+    <div class="collection-header">
+      <h2 style="margin:0;color:var(--accent)">Collections</h2>
+      <div class="cat-tabs" id="catTabs">
+        <!-- category buttons inserted here -->
+      </div>
+    </div>
 
-<!-- Cart Panel -->
-<div class="side-panel" id="cartPanel">
-  <h2>🛍️ Cart</h2>
-  <div id="cartItems"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section id="about">
+    <h2 style="color:var(--accent)">About</h2>
+    <p style="color:var(--muted);max-width:720px;margin:8px auto 40px">iViya blends traditional craftsmanship with modern design. Manage products from your Google Sheet — use `category` and `image_gallery` columns for advanced listings.</p>
+  </section>
+
+  <section id="contact">
+    <h2 style="color:var(--accent)">Contact</h2>
+    <p style="color:var(--muted)">Email: contact@iviyasilver.com • WhatsApp: <a href="https://wa.me/WHATSAPP_NUMBER" style="color:var(--silver)">Message</a></p>
+  </section>
+</main>
+
+<!-- RIGHT SIDE: Wishlist panel -->
+<aside class="side-panel" id="wishPanel" aria-hidden="true">
+  <div class="panel-head">
+    <h3>Wishlist</h3>
+    <button class="icon-btn" id="closeWish" aria-label="Close">✕</button>
+  </div>
+  <div class="panel-body" id="wishBody"><p style="color:var(--muted)">No items yet.</p></div>
+  <div class="panel-footer" id="wishFooter" style="display:none">
+    <div style="color:var(--muted)">Items</div>
+    <div><button class="checkout-btn" id="wishCheckout" style="background:#2a2a2a;border:none;color:var(--silver);padding:8px 10px;border-radius:8px">Contact</button></div>
+  </div>
+</aside>
+
+<!-- RIGHT SIDE: Cart panel -->
+<aside class="side-panel" id="cartPanel" aria-hidden="true">
+  <div class="panel-head">
+    <h3>Cart</h3>
+    <button class="icon-btn" id="closeCart" aria-label="Close">✕</button>
+  </div>
+  <div class="panel-body" id="cartBody"><p style="color:var(--muted)">Your cart is empty.</p></div>
+  <div class="panel-footer" id="cartFooter" style="display:none">
+    <div class="total" id="cartTotal" style="font-weight:700;color:var(--silver)">₹0</div>
+    <div><button class="checkout-btn" id="checkoutBtn">Checkout via WhatsApp</button></div>
+  </div>
+</aside>
+
+<!-- PRODUCT DETAIL (slide-up) -->
+<div class="detail-wrap" id="detailWrap" aria-hidden="true">
+  <div class="detail-header">
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="icon-btn" id="detailBack">←</button>
+      <div id="detailTitle" style="font-weight:800;color:var(--accent)"></div>
+    </div>
+    <div id="detailActions" style="display:flex;gap:8px;align-items:center">
+      <button class="icon-btn" id="detailWish">♡</button>
+      <button class="add-cart" id="detailAdd">Add to cart</button>
+    </div>
+  </div>
+
+  <div class="detail-body">
+    <div class="detail-gallery">
+      <div class="detail-main"><img id="detailMainImg" src="" alt=""></div>
+      <div class="detail-thumbs" id="detailThumbs"></div>
+    </div>
+
+    <div class="detail-info">
+      <div id="detailName" class="detail-title"></div>
+      <div id="detailPrice" class="detail-price"></div>
+      <div id="detailDesc" class="detail-desc"></div>
+      <div class="detail-actions">
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="add-cart" id="detailAddCart">Add to cart</button>
+          <div style="color:var(--muted)">Qty in cart: <strong id="detailQty">0</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-const sheetURL = "https://opensheet.elk.sh/1-ZrGnfPbTtmStHS8kWvQUHt7pnVMUjEb8TK7iloYoBs/Sheet1";
-let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+/* -------------- CONFIG -------------- */
+const SHEET_URL = 'https://opensheet.elk.sh/1-ZrGnfPbTtmStHS8kWvQUHt7pnVMUjEb8TK7iloYoBs/Sheet1';
+const WHATSAPP_NUMBER = '919000000000'; // <- Replace with your number (country code + number)
+const LS_WISH = 'iv_wishlist';
+const LS_CART = 'iv_cart';
 
-async function loadProducts() {
-  const res = await fetch(sheetURL);
-  const data = await res.json();
-  const container = document.getElementById('collections');
-  container.innerHTML = "";
+/* -------------- UTIL -------------- */
+const el = id => document.getElementById(id);
+function fmtINR(n){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(Number(n||0)); }
+function uidFor(p){ return (p.sku || p.id || (p.name||p.title) || Math.random().toString(36).slice(2,9)).toString(); }
+function show(elm){ elm.classList.add('open'); }
+function hide(elm){ elm.classList.remove('open'); }
 
-  data.forEach((product, index) => {
-    const card = document.createElement('div');
-    card.className = "product";
-    card.innerHTML = `
-      <div class="heart ${wishlist.find(i=>i.sku===product.sku)?'active':''}" onclick="toggleWishlistItem(event, ${index})">♥</div>
-      <img src="${product.image_url}" alt="${product.name}">
-      <h3>${product.name}</h3>
-      <p>₹${product.price}</p>
-      <button class="btn" onclick="addToCart('${product.sku}', event)">Add to Cart</button>
-    `;
-    card.addEventListener('click', e => {
-      if(!e.target.classList.contains('btn') && !e.target.classList.contains('heart')){
-        showProductDetail(product);
+/* -------------- STORAGE -------------- */
+function loadWishlist(){ try{ return JSON.parse(localStorage.getItem(LS_WISH)||'[]'); }catch(e){return[];} }
+function saveWishlist(v){ localStorage.setItem(LS_WISH, JSON.stringify(v)); updateBadges(); }
+function loadCart(){ try{ return JSON.parse(localStorage.getItem(LS_CART)||'{}'); }catch(e){return{};} }
+function saveCart(v){ localStorage.setItem(LS_CART, JSON.stringify(v)); updateBadges(); }
+
+/* -------------- UI refs -------------- */
+const menuToggle = el('menuToggle');
+const leftMenu = document.querySelector('.menu-left');
+const overlay = el('overlay');
+const wishToggle = el('wishToggle');
+const cartToggle = el('cartToggle');
+const wishPanel = el('wishPanel');
+const cartPanel = el('cartPanel');
+const wishBadge = el('wishBadge');
+const cartBadge = el('cartBadge');
+const grid = el('grid');
+const catTabs = el('catTabs');
+const detailWrap = el('detailWrap');
+const detailThumbs = el('detailThumbs');
+const detailMainImg = el('detailMainImg');
+const detailTitle = el('detailTitle');
+const detailName = el('detailName');
+const detailPrice = el('detailPrice');
+const detailDesc = el('detailDesc');
+const detailQty = el('detailQty');
+
+let PRODUCTS = {}; // id -> product
+let CURRENT_CAT = 'All';
+
+/* -------------- MENU toggle (left) -------------- */
+menuToggle.addEventListener('click', ()=>{
+  menuToggle.classList.toggle('active');
+  leftMenu.classList.toggle('open');
+  // if opening, close panels
+  if(leftMenu.classList.contains('open')) { closePanels(); overlay.classList.add('show'); }
+  else { overlay.classList.remove('show'); }
+});
+document.querySelectorAll('.menu-left a').forEach(a=>{
+  a.addEventListener('click', ()=> { leftMenu.classList.remove('open'); menuToggle.classList.remove('active'); overlay.classList.remove('show'); });
+});
+
+/* overlay click closes everything */
+overlay.addEventListener('click', ()=>{
+  leftMenu.classList.remove('open');
+  closePanels();
+  overlay.classList.remove('show');
+  closeDetail();
+  menuToggle.classList.remove('active');
+});
+
+/* -------------- LOAD PRODUCTS & RENDER -------------- */
+async function loadProducts(){
+  try{
+    const res = await fetch(SHEET_URL);
+    const data = await res.json();
+    PRODUCTS = {};
+    // categories we want to show as tabs under "Collections" (silver subcategories)
+    const desired = ['rings','earrings','anklets','chains','pendants','pendant sets','bracelets','bangles'];
+    const categoriesFound = new Set();
+    data.forEach((p, idx)=>{
+      const id = uidFor(p);
+      // gallery: image_gallery (comma-separated), fallback to image_url
+      let gallery = [];
+      if(p.image_gallery && String(p.image_gallery).trim()){
+        gallery = String(p.image_gallery).split(',').map(s=>s.trim()).filter(Boolean);
       }
+      if(!gallery.length && p.image_url) gallery = [p.image_url];
+      if(!gallery.length && p.image) gallery = [p.image];
+
+      // category normalized
+      const cat = (p.category || p.Category || '').toString().trim().toLowerCase();
+      if(cat) categoriesFound.add(cat);
+
+      const name = p.name || p.title || ('Product ' + (idx+1));
+      const price = Number(p.price) || 0;
+      const desc = p.description || p.desc || '';
+      PRODUCTS[id] = { id, name, price, desc, gallery, raw: p, category: cat };
     });
-    container.appendChild(card);
-  });
-  updateCounts();
+
+    // build category tabs using the desired list but only show tabs if products exist for them - also include "All"
+    const catsToShow = ['All', ...desired.filter(c=> {
+      // show if any product matches this desired subcategory
+      return Object.values(PRODUCTS).some(p => p.category === c);
+    })];
+
+    renderCategoryTabs(catsToShow);
+    renderGrid();
+    updateBadges();
+  }catch(err){
+    console.error('sheet load error', err);
+    grid.innerHTML = '<p style="color:#999">Failed to load products.</p>';
+  }
 }
 loadProducts();
 
-function toggleMenu() {
-  const m = document.getElementById('menu');
-  m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
-}
-document.querySelectorAll('#menu a').forEach(a => a.addEventListener('click', () => document.getElementById('menu').style.display='none'));
-
-function toggleWishlistItem(e, index){
-  e.stopPropagation();
-  fetch(sheetURL).then(r=>r.json()).then(data=>{
-    const product = data[index];
-    const exists = wishlist.find(i=>i.sku===product.sku);
-    if(exists) wishlist = wishlist.filter(i=>i.sku!==product.sku);
-    else wishlist.push(product);
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-    loadProducts();
+/* -------------- CATEGORIES UI -------------- */
+function renderCategoryTabs(list){
+  catTabs.innerHTML = '';
+  // if no desired categories found, fallback to All + ones found
+  if(list.length === 1){
+    // find categories from PRODUCTS
+    const found = new Set(Object.values(PRODUCTS).map(p=>p.category).filter(Boolean));
+    list = ['All', ...Array.from(found)];
+  }
+  list.forEach(c=>{
+    const b = document.createElement('button');
+    b.className = 'cat-btn' + (c===CURRENT_CAT ? ' active' : '');
+    b.textContent = c[0].toUpperCase() + c.slice(1);
+    b.dataset.cat = c.toLowerCase();
+    b.addEventListener('click', ()=> {
+      document.querySelectorAll('.cat-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      CURRENT_CAT = c;
+      renderGrid();
+    });
+    catTabs.appendChild(b);
   });
 }
 
-function addToCart(sku, e){
-  e.stopPropagation();
-  fetch(sheetURL).then(r=>r.json()).then(data=>{
-    const product = data.find(i=>i.sku===sku);
-    const item = cart.find(i=>i.sku===sku);
-    if(item) item.qty++;
-    else cart.push({...product, qty:1});
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCounts();
+/* -------------- GRID render (filter by CURRENT_CAT) -------------- */
+function renderGrid(){
+  grid.innerHTML = '';
+  const items = Object.values(PRODUCTS).filter(p=>{
+    if(CURRENT_CAT === 'All') return true;
+    return (p.category || '') === CURRENT_CAT.toLowerCase();
   });
-}
 
-function updateCounts(){
-  document.getElementById('wishCount').innerText = wishlist.length;
-  document.getElementById('cartCount').innerText = cart.reduce((a,b)=>a+b.qty,0);
-}
+  if(!items.length){
+    grid.innerHTML = `<p style="color:var(--muted); grid-column:1/-1; text-align:center">No products in this category.</p>`;
+    return;
+  }
 
-function toggleWishlist(){
-  document.getElementById('wishlistPanel').classList.toggle('active');
-  renderWishlist();
-}
-function toggleCart(){
-  document.getElementById('cartPanel').classList.toggle('active');
-  renderCart();
-}
-
-function renderWishlist(){
-  const container = document.getElementById('wishlistItems');
-  container.innerHTML = wishlist.length ? wishlist.map(i=>`
-    <div style="display:flex;align-items:center;gap:10px;margin:10px 0;">
-      <img src="${i.image_url}">
-      <div>${i.name}<br>₹${i.price}</div>
-    </div>
-  `).join('') : "<p>No items yet ❤️</p>";
-}
-
-function renderCart(){
-  const container = document.getElementById('cartItems');
-  container.innerHTML = cart.length ? cart.map(i=>`
-    <div style="display:flex;align-items:center;gap:10px;margin:10px 0;">
-      <img src="${i.image_url}">
-      <div style="flex:1">${i.name}<br>₹${i.price}</div>
-      <div>
-        <button onclick="changeQty('${i.sku}',-1)">-</button>
-        ${i.qty}
-        <button onclick="changeQty('${i.sku}',1)">+</button>
+  items.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'card';
+    const img = p.gallery && p.gallery.length ? p.gallery[0] : ('https://via.placeholder.com/400x300?text=No+Image');
+    card.innerHTML = `
+      <button class="heart-btn" data-id="${p.id}" title="Wishlist">♡</button>
+      <div class="imgwrap"><img src="${img}" alt="${p.name}" loading="lazy"></div>
+      <div class="info">
+        <div class="name">${p.name}</div>
+        <div class="price">${fmtINR(p.price)}</div>
+        <div class="desc">${p.desc}</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+          <button class="add-cart" data-id="${p.id}">Add to cart</button>
+        </div>
       </div>
-    </div>
-  `).join('') : "<p>Your cart is empty 🛍️</p>";
+    `;
+    // attach data
+    card.dataset.item = JSON.stringify(p);
+    grid.appendChild(card);
+
+    // heart state
+    const heart = card.querySelector('.heart-btn');
+    function refreshHeart(){
+      const list = loadWishlist();
+      const found = list.find(x=>x.id === p.id);
+      heart.classList.toggle('active', !!found);
+      heart.textContent = found ? '❤️' : '♡';
+    }
+    refreshHeart();
+    heart.addEventListener('click', (ev)=>{
+      ev.stopPropagation();
+      let list = loadWishlist();
+      const found = list.find(x=> x.id === p.id);
+      if(found) list = list.filter(x=> x.id !== p.id);
+      else list.push({ id:p.id, name:p.name, price:p.price, img:p.gallery[0]||'' });
+      saveWishlist(list);
+      refreshHeart();
+    });
+
+    // add-to-cart
+    const addBtn = card.querySelector('.add-cart');
+    addBtn.addEventListener('click', (ev)=>{
+      ev.stopPropagation();
+      const cart = loadCart();
+      if(!cart[p.id]) cart[p.id] = { id:p.id, name:p.name, price:p.price, img:p.gallery[0]||'', qty:0 };
+      cart[p.id].qty = (cart[p.id].qty || 0) + 1;
+      saveCart(cart);
+    });
+
+    // click card → open detail
+    card.addEventListener('click', ()=> showProductDetail(p.id));
+  });
 }
 
-function changeQty(sku, change){
-  const item = cart.find(i=>i.sku===sku);
-  if(!item) return;
-  item.qty += change;
-  if(item.qty<=0) cart = cart.filter(i=>i.sku!==sku);
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCounts();
-  renderCart();
+/* -------------- BADGES & PANELS -------------- */
+function updateBadges(){
+  const wish = loadWishlist();
+  const cart = loadCart();
+  wishBadge.style.display = wish.length ? 'inline-block' : 'none';
+  wishBadge.textContent = wish.length;
+  const qty = Object.values(cart).reduce((s,i)=> s + (i.qty||0), 0);
+  cartBadge.style.display = qty ? 'inline-block' : 'none';
+  cartBadge.textContent = qty;
 }
 
-/* Product detail view */
-function showProductDetail(product) {
-  document.getElementById('collections').style.display = 'none';
-  const detail = document.getElementById('productDetail');
-  detail.style.display = 'block';
-
-  const galleryHTML = product.image_gallery
-    ? product.image_gallery.split(',').map(url => 
-        `<img src="${url.trim()}" alt="${product.name}" class="detail-img">`
-      ).join('')
-    : `<img src="${product.image_url}" alt="${product.name}" class="detail-img">`;
-
-  detail.innerHTML = `
-    <button class="back-btn" onclick="backToCollections()">← Back</button>
-    <div class="gallery">${galleryHTML}</div>
-    <h2>${product.name}</h2>
-    <p>${product.description}</p>
-    <h3>₹${product.price}</h3>
-    <button class="btn" onclick="addToCart('${product.sku}', event)">Add to Cart</button>
-  `;
+/* open/close panels (smooth) */
+function closePanels(){
+  wishPanel.classList.remove('open');
+  cartPanel.classList.remove('open');
+  overlay.classList.remove('show');
+  wishPanel.setAttribute('aria-hidden','true');
+  cartPanel.setAttribute('aria-hidden','true');
+}
+function openWish(){
+  populateWishPanel();
+  wishPanel.classList.add('open');
+  overlay.classList.add('show');
+}
+function openCart(){
+  populateCartPanel();
+  cartPanel.classList.add('open');
+  overlay.classList.add('show');
 }
 
-function backToCollections() {
-  document.getElementById('productDetail').style.display = 'none';
-  document.getElementById('collections').style.display = 'grid';
+el('wishToggle').addEventListener('click', ()=>{
+  if(wishPanel.classList.contains('open')) closePanels();
+  else { closeDetail(); leftMenu.classList.remove('open'); menuToggle.classList.remove('active'); openWish(); }
+});
+el('cartToggle').addEventListener('click', ()=>{
+  if(cartPanel.classList.contains('open')) closePanels();
+  else { closeDetail(); leftMenu.classList.remove('open'); menuToggle.classList.remove('active'); openCart(); }
+});
+
+el('closeWish').addEventListener('click', closePanels);
+el('closeCart').addEventListener('click', closePanels);
+
+/* populate panels */
+function populateWishPanel(){
+  const container = el('wishBody');
+  const list = loadWishlist();
+  container.innerHTML = '';
+  if(!list.length){ container.innerHTML = '<p style="color:var(--muted)">Your wishlist is empty.</p>'; el('wishFooter').style.display='none'; return; }
+  el('wishFooter').style.display='flex';
+  list.forEach(it=>{
+    const row = document.createElement('div'); row.className='panel-item';
+    row.innerHTML = `<img src="${it.img}" alt="${it.name}"><div class="panel-meta"><div class="pn">${it.name}</div><div class="pm">${fmtINR(it.price)}</div><div style="margin-top:8px"><button class="remove-btn" data-id="${it.id}">Remove</button></div></div>`;
+    container.appendChild(row);
+  });
+  container.querySelectorAll('.remove-btn').forEach(b=> b.addEventListener('click', ()=>{
+    const id = b.dataset.id; let list = loadWishlist(); list = list.filter(x=> x.id !== id); saveWishlist(list); populateWishPanel();
+  }));
 }
+
+function populateCartPanel(){
+  const container = el('cartBody');
+  const cart = loadCart();
+  container.innerHTML = '';
+  const ids = Object.keys(cart);
+  if(!ids.length){ container.innerHTML = '<p style="color:var(--muted)">Your cart is empty.</p>'; el('cartFooter').style.display='none'; el('cartTotal').textContent = fmtINR(0); return; }
+  el('cartFooter').style.display='flex';
+  let total = 0;
+  ids.forEach(id=>{
+    const it = cart[id]; total += (it.price||0)*(it.qty||0);
+    const row = document.createElement('div'); row.className='panel-item';
+    row.innerHTML = `<img src="${it.img}" alt="${it.name}"><div class="panel-meta"><div class="pn">${it.name}</div><div class="pm">${fmtINR(it.price)} • Qty: <strong id="q-${id}">${it.qty}</strong></div><div class="qty-controls" style="margin-top:8px"><button class="dec" data-id="${id}">−</button><button class="inc" data-id="${id}">+</button><button class="remove-btn" data-id="${id}" style="margin-left:12px">Remove</button></div></div>`;
+    container.appendChild(row);
+  });
+  el('cartTotal').textContent = fmtINR(total);
+
+  // handlers
+  container.querySelectorAll('.inc').forEach(b=> b.addEventListener('click', ()=>{
+    const id = b.dataset.id; const cartObj = loadCart(); cartObj[id].qty = (cartObj[id].qty||0)+1; saveCart(cartObj); populateCartPanel();
+  }));
+  container.querySelectorAll('.dec').forEach(b=> b.addEventListener('click', ()=>{
+    const id = b.dataset.id; const cartObj = loadCart(); cartObj[id].qty = Math.max(0,(cartObj[id].qty||0)-1); if(cartObj[id].qty===0) delete cartObj[id]; saveCart(cartObj); populateCartPanel();
+  }));
+  container.querySelectorAll('.remove-btn').forEach(b=> b.addEventListener('click', ()=>{
+    const id = b.dataset.id; const cartObj = loadCart(); delete cartObj[id]; saveCart(cartObj); populateCartPanel();
+  }));
+}
+
+/* -------------- STORAGE helpers -------------- */
+function loadWishlist(){ try{ return JSON.parse(localStorage.getItem(LS_WISH) || '[]'); }catch(e){ return []; } }
+function saveWishlist(list){ localStorage.setItem(LS_WISH, JSON.stringify(list)); updateBadges(); }
+function loadCart(){ try{ return JSON.parse(localStorage.getItem(LS_CART) || '{}'); }catch(e){ return {}; } }
+function saveCart(obj){ localStorage.setItem(LS_CART, JSON.stringify(obj)); updateBadges(); }
+
+/* -------------- DETAIL VIEW -------------- */
+let CURRENT_DETAIL_ID = null;
+function showProductDetail(id){
+  const p = PRODUCTS[id];
+  if(!p) return;
+  CURRENT_DETAIL_ID = id;
+  detailTitle.textContent = p.name;
+  detailName.textContent = p.name;
+  detailPrice.textContent = fmtINR(p.price);
+  detailDesc.textContent = p.desc;
+
+  // gallery
+  const gallery = p.gallery && p.gallery.length ? p.gallery : ['https://via.placeholder.com/800x600?text=No+Image'];
+  detailThumbs.innerHTML = '';
+  gallery.forEach((src,i)=>{
+    const img = document.createElement('img');
+    img.src = src; img.alt = p.name + ' ' + (i+1);
+    if(i===0) img.classList.add('active');
+    img.addEventListener('click', ()=> {
+      detailMainImg.src = src;
+      detailThumbs.querySelectorAll('img').forEach(x=>x.classList.remove('active')); img.classList.add('active');
+    });
+    detailThumbs.appendChild(img);
+  });
+  detailMainImg.src = gallery[0];
+  // qty in cart
+  const cartObj = loadCart();
+  detailQty.textContent = cartObj[id] ? cartObj[id].qty : 0;
+  // wishlist state
+  refreshDetailWish();
+  // open slide-up
+  detailWrap.classList.add('open');
+  overlay.classList.add('show');
+  // close panels/menu
+  closePanels(); leftMenu.classList.remove('open'); menuToggle.classList.remove('active');
+}
+el('detailBack').addEventListener('click', closeDetail = ()=> {
+  detailWrap.classList.remove('open'); overlay.classList.remove('show'); CURRENT_DETAIL_ID = null;
+});
+
+function refreshDetailWish(){
+  const wish = loadWishlist();
+  const exists = wish.find(x=> x.id === CURRENT_DETAIL_ID);
+  el('detailWish').textContent = exists ? '❤️' : '♡';
+}
+
+/* detail add/wish */
+el('detailWish').addEventListener('click', ()=>{
+  if(!CURRENT_DETAIL_ID) return;
+  let list = loadWishlist();
+  const found = list.find(x=> x.id === CURRENT_DETAIL_ID);
+  if(found) list = list.filter(x=> x.id !== CURRENT_DETAIL_ID);
+  else {
+    const p = PRODUCTS[CURRENT_DETAIL_ID]; list.push({ id:p.id, name:p.name, price:p.price, img:p.gallery[0]||'' });
+  }
+  saveWishlist(list); refreshDetailWish();
+});
+el('detailAdd').addEventListener('click', ()=>{
+  if(!CURRENT_DETAIL_ID) return;
+  const cart = loadCart(); const p = PRODUCTS[CURRENT_DETAIL_ID];
+  if(!cart[p.id]) cart[p.id] = { id:p.id, name:p.name, price:p.price, img:p.gallery[0]||'', qty:0 };
+  cart[p.id].qty = (cart[p.id].qty || 0) + 1;
+  saveCart(cart); detailQty.textContent = cart[p.id].qty;
+});
+el('detailAddCart').addEventListener('click', ()=> el('detailAdd').click());
+
+/* -------------- WHATSAPP CHECKOUT -------------- */
+el('checkoutBtn').addEventListener('click', checkout);
+function checkout(){
+  const cart = loadCart();
+  const ids = Object.keys(cart);
+  if(!ids.length) return alert('Cart is empty');
+  const lines = ids.map(id => `${cart[id].name} x${cart[id].qty} = ₹${cart[id].price*cart[id].qty}`);
+  const total = ids.reduce((s,id)=> s + cart[id].price*cart[id].qty, 0);
+  const msg = encodeURIComponent(`Hello iViya! 👋%0AI'd like to order:%0A${lines.join('%0A')}%0A%0ATotal: ₹${total}`);
+  window.open(`https://wa.me/919080816049?text=${msg}`, '_blank');
+}
+
+/* wishlist proceed placeholder */
+el('wishCheckout').addEventListener('click', ()=>{
+  const w = loadWishlist();
+  if(!w.length) return alert('Wishlist is empty');
+  alert('Wishlist flow placeholder — implement desired flow (move to cart or contact).');
+});
+
+/* -------------- INIT helpers -------------- */
+function updateBadges(){ updateBadgesInner(); renderCartPanelState(); }
+function updateBadgesInner(){
+  const w = loadWishlist(); const cart = loadCart();
+  wishBadge.style.display = w.length ? 'inline-block' : 'none'; wishBadge.textContent = w.length;
+  const qty = Object.values(cart).reduce((s,i)=> s + (i.qty||0), 0);
+  cartBadge.style.display = qty ? 'inline-block' : 'none'; cartBadge.textContent = qty;
+}
+
+/* populate cart panel state (initial) */
+function renderCartPanelState(){ /* keep cart panel UI fresh only when open */ if(cartPanel.classList.contains('open')) populateCartPanel(); if(wishPanel.classList.contains('open')) populateWishPanel(); }
+
+/* -------------- event: keyboard close -------------- */
+document.addEventListener('keydown', (e)=> {
+  if(e.key === 'Escape'){ closePanels(); leftMenu.classList.remove('open'); menuToggle.classList.remove('active'); closeDetail(); overlay.classList.remove('show'); }
+});
+
+/* -------------- initial badges & panel handlers -------------- */
+updateBadgesInner();
+
+/* -------------- short polling for storage changes (if user open in multiple tabs) -------------- */
+window.addEventListener('storage', ()=> { updateBadgesInner(); renderGrid(); });
+
 </script>
 </body>
 </html>
