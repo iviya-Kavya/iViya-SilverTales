@@ -41,7 +41,18 @@
   .badge { position:absolute; top:-6px; right:-10px; background:#ef4444; color:#fff; font-size:11px; padding:2px 6px; border-radius:999px; }
 
   /* top menu (desktop) */
-  .menu { display:none; gap:14px; align-items:center; justify-content:center; }
+  .menu {
+  position: fixed;           /* was absolute — now fixed to viewport */
+  top: 60px;                 /* just below the navbar */
+  left: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  display: none;
+  flex-direction: column;
+  text-align: center;
+  z-index: 2000;             /* ensures it’s always above all sections */
+  }
   .menu a { text-decoration:none; color:#444; padding:6px 10px; border-radius:6px; font-weight:500; }
   @media(min-width:768px){
     .menu { display:flex; position:static; width:auto; background:transparent; box-shadow:none; }
