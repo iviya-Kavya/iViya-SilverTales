@@ -1,160 +1,424 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Iviya — Silver Tales</title>
-  <meta name="description" content="Iviya — Silver Tales. Nature's poetry in silver. Handcrafted, nature-inspired silver jewellery." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>iViya — Silver Tales</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f6f7;
+  --panel:#ffffff;
+  --muted:#6b7280;
+  --silver:#8f9aa3;
+  --accent:#222;
+  --glass: rgba(0,0,0,0.03);
+  --whatsapp:#25D366;
+  --header-height:72px;
+}
+*{box-sizing:border-box}
+body {
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background: linear-gradient(180deg,#fbfbfb,#efefef);
+  color:var(--accent);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Header */
+.header {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:var(--header-height);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 16px;
+  background: rgba(255,255,255,0.98);
+  border-bottom:1px solid rgba(0,0,0,0.04);
+  z-index:1200;
+}
+.logo { text-align:center; }
+.logo .title { font-weight:700; font-size:18px; color:#111; }
+.logo .tag { font-size:12px; color:var(--muted); margin-top:2px; }
+
+/* left menu icon */
+.left-area { display:flex; align-items:center; gap:12px; }
+.menu-btn { background:transparent; border:none; font-size:20px; cursor:pointer; color:var(--accent); }
+
+/* right icons */
+.right-icons { display:flex; gap:10px; align-items:center; }
+.icon-btn { background:transparent; border:none; cursor:pointer; padding:8px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; }
+.icon-btn .fa { font-size:18px; }
+.badge { position:relative; margin-left:-12px; top:-20px; background:#ef4444; color:#fff; font-size:11px; padding:2px 6px; border-radius:999px; display:none; }
+
+/* side menu */
+.side-menu {
+  position:fixed; top:var(--header-height); left:-320px; width:300px; height:calc(100vh - var(--header-height));
+  background:var(--panel); box-shadow:6px 0 32px rgba(0,0,0,0.08); transition:left .28s ease; z-index:1100; padding:16px; overflow:auto;
+}
+.side-menu.open { left:0; }
+.side-menu h3 { margin:0 0 8px 0; color:var(--accent); }
+.side-menu ul { list-style:none; padding:0; margin:0; }
+.side-menu li { padding:8px 6px; border-radius:6px; cursor:pointer; color:#222; }
+.side-menu li:hover { background:var(--glass); }
+.sublist { padding-left:12px; display:none; margin-top:6px; }
+.sublist.visible { display:block; }
+
+/* main content spacing */
+main { max-width:1100px; margin:calc(var(--header-height) + 20px) auto 120px; padding:0 16px; }
+
+/* category tabs */
+.catbar { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:16px; }
+.cat-btn { padding:8px 12px; border-radius:999px; border:1px solid rgba(0,0,0,0.06); background:#fff; cursor:pointer; color:#333; }
+.cat-btn.active{ background:#111; color:#fff; border-color:rgba(0,0,0,0.06); transform:translateY(-2px); }
+
+/* grid */
+.grid { display:grid; grid-template-columns: repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
+.card { background:#fff; border-radius:10px; box-shadow:0 6px 18px rgba(10,10,10,0.04); overflow:hidden; cursor:pointer; transition:transform .18s ease; }
+.card:hover{ transform:translateY(-6px); }
+.card .imgwrap{ height:190px; background:#fafafa; display:flex; align-items:center; justify-content:center; }
+.card img{ width:100%; height:100%; object-fit:cover; display:block; }
+.card .meta{ padding:10px 12px; }
+.card .title{ font-weight:700; color:#111; }
+.card .price{ color:var(--silver); font-weight:700; }
+
+/* cart panel */
+.cart-panel {
+  position:fixed; top:var(--header-height); right:-420px; width:380px; height:calc(100vh - var(--header-height)); background:#fff; box-shadow:-6px 0 32px rgba(0,0,0,0.06); transition:right .28s ease; z-index:1100; display:flex; flex-direction:column;
+}
+.cart-panel.open{ right:0; }
+.cart-head{ padding:14px; border-bottom:1px solid rgba(0,0,0,0.04); display:flex; justify-content:space-between; align-items:center; }
+.cart-body{ padding:12px; overflow:auto; flex:1; }
+.cart-footer{ padding:12px; border-top:1px solid rgba(0,0,0,0.04); display:flex; justify-content:space-between; align-items:center; gap:8px; background:linear-gradient(180deg, rgba(255,255,255,0), rgba(255,255,255,0.98)); position:sticky; bottom:0; }
+
+/* checkout button */
+.checkout { background:var(--whatsapp); color:#fff; border:none; padding:12px 14px; border-radius:8px; font-weight:800; cursor:pointer; }
+
+/* responsive tweaks */
+@media(max-width:640px){
+  .side-menu{ width:84%; }
+  .cart-panel{ width:100%; }
+  .header { padding:10px; }
+}
+</style>
 </head>
 <body>
-  <div class="shimmer"></div>
-  <header class="site-header">
-    <div class="container header-inner">
-      <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <!-- simple silver leaf logo -->
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3 21c4-6 9-11 18-18-3 9-8 14-14 18-2 1-4 1-4 0z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6 12c2-2 6-6 12-12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div>
-          <h1 class="site-title">Iviya <span class="dot">—</span> <small class="subtitle">Silver Tales</small></h1>
-          <p class="tagline">Nature's Poetry in Silver</p>
-        </div>
-      </div>
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#collections">Collections</a>
-        <a href="#contact">Contact</a>
-      </nav>
+
+<header class="header">
+  <div class="left-area">
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu"><i class="fa fa-bars"></i></button>
+    <div class="logo"><div class="title">iViya</div><div class="tag">Silver Tales</div></div>
+  </div>
+
+  <div class="right-icons" aria-hidden="false">
+    <button class="icon-btn" id="navWhatsApp" title="WhatsApp"><i class="fa-brands fa-whatsapp" style="color:#25d366"></i></button>
+    <button class="icon-btn" id="navContact" title="Contact"><i class="fa fa-phone" style="color:#00bfa5"></i></button>
+    <button class="icon-btn" id="navLogin" title="Login"><i class="fa fa-user" style="color:#f1c40f"></i></button>
+    <button class="icon-btn" id="navSignup" title="Sign up"><i class="fa fa-user-plus" style="color:#8e44ad"></i></button>
+    <button class="icon-btn" id="navWish" title="Wishlist"><i class="fa-regular fa-heart" style="color:#e53935"></i><span class="badge" id="wishBadge">0</span></button>
+    <button class="icon-btn" id="navCart" title="Cart"><i class="fa-solid fa-bag-shopping" style="color:#ff80ab"></i><span class="badge" id="cartBadge">0</span></button>
+  </div>
+</header>
+
+<!-- Side menu -->
+<aside class="side-menu" id="sideMenu" aria-hidden="true">
+  <h3>Menu</h3>
+  <ul>
+    <li data-link="home" class="menu-link">Home</li>
+    <li data-link="about" class="menu-link">About</li>
+    <li id="collectionsToggle">Collections ▾
+      <ul class="sublist" id="collectionsSub">
+        <li class="sublink" data-cat="rings">Rings</li>
+        <li class="sublink" data-cat="earrings">Earrings</li>
+        <li class="sublink" data-cat="anklets">Anklets</li>
+        <li class="sublink" data-cat="chains">Chains</li>
+        <li class="sublink" data-cat="pendants">Pendants</li>
+        <li class="sublink" data-cat="pendant sets">Pendant Sets</li>
+        <li class="sublink" data-cat="bracelets">Bracelets</li>
+        <li class="sublink" data-cat="bangles">Bangles</li>
+      </ul>
+    </li>
+  </ul>
+</aside>
+
+<!-- Cart panel -->
+<aside class="cart-panel" id="cartPanel" aria-hidden="true">
+  <div class="cart-head"><strong>Cart</strong><button class="menu-btn" id="closeCart" aria-label="Close cart">✕</button></div>
+  <div class="cart-body" id="cartBody"><p style="color:var(--muted)">No items yet.</p></div>
+  <div class="cart-footer">
+    <div id="cartTotal" style="font-weight:800;color:#111">₹0</div>
+    <button class="checkout" id="checkoutBtn">Checkout via WhatsApp</button>
+  </div>
+</aside>
+
+<main>
+  <section style="text-align:center;margin:18px 0;">
+    <h1 style="margin:0;color:#222">Collections</h1>
+    <p style="color:var(--muted)">Browse categories or open the menu</p>
+  </section>
+
+  <div class="catbar" id="catBar"></div>
+
+  <section class="grid" id="productGrid"></section>
+</main>
+
+<script>
+const SHEET_URL = 'https://opensheet.elk.sh/1-ZrGnfPbTtmStHS8kWvQUHt7pnVMUjEb8TK7iloYoBs/Sheet1';
+let PRODUCTS = {};
+let CURRENT_CAT = 'All';
+
+/* UI refs */
+const menuBtn = document.getElementById('menuBtn');
+const sideMenu = document.getElementById('sideMenu');
+const collectionsToggle = document.getElementById('collectionsToggle');
+const collectionsSub = document.getElementById('collectionsSub');
+const navWish = document.getElementById('navWish');
+const navCart = document.getElementById('navCart');
+const navLogin = document.getElementById('navLogin');
+const navSignup = document.getElementById('navSignup');
+const navContact = document.getElementById('navContact');
+const navWhatsApp = document.getElementById('navWhatsApp');
+const cartPanel = document.getElementById('cartPanel');
+const cartBody = document.getElementById('cartBody');
+const cartTotal = document.getElementById('cartTotal');
+const cartBadge = document.getElementById('cartBadge');
+const wishBadge = document.getElementById('wishBadge');
+const checkoutBtn = document.getElementById('checkoutBtn');
+const catBar = document.getElementById('catBar');
+const productGrid = document.getElementById('productGrid');
+
+/* event handlers for header icons */
+menuBtn.addEventListener('click', ()=> {
+  sideMenu.classList.toggle('open');
+});
+navWish.addEventListener('click', ()=> toggleWishlistPanel());
+navCart.addEventListener('click', ()=> toggleCartPanel());
+navLogin.addEventListener('click', ()=> alert('Login placeholder'));
+navSignup.addEventListener('click', ()=> alert('Signup placeholder'));
+navContact.addEventListener('click', ()=> window.location.href='mailto:contact@iviyasilver.com');
+navWhatsApp.addEventListener('click', ()=> window.open('https://wa.me/919876543210','_blank'));
+
+/* side menu behavior */
+sideMenu.addEventListener('click', (e)=>{
+  const li = e.target.closest('.menu-link');
+  if(li && li.dataset.link){
+    const anchor = li.dataset.link;
+    // close menu and scroll to section (if exists)
+    sideMenu.classList.remove('open');
+    if(anchor === 'home') window.scrollTo({top:0, behavior:'smooth'});
+    if(anchor === 'about') document.querySelector('main').scrollIntoView({behavior:'smooth'});
+  }
+});
+collectionsToggle.addEventListener('click', ()=>{
+  collectionsSub.classList.toggle('visible');
+});
+collectionsSub.addEventListener('click', (e)=>{
+  const sl = e.target.closest('.sublink');
+  if(!sl) return;
+  const cat = sl.dataset.cat;
+  sideMenu.classList.remove('open'); // auto close on click
+  filterByCategory(cat);
+});
+
+/* cart panel */
+function toggleCartPanel(){
+  cartPanel.classList.toggle('open');
+}
+
+/* wishlist panel (simple alert or implement later) */
+function toggleWishlistPanel(){
+  const w = JSON.parse(localStorage.getItem('iv_wishlist')||'[]');
+  if(!w.length) return alert('Wishlist empty');
+  let text = 'Wishlist:\\n';
+  w.forEach(it=> text += `${it.name} (SKU:${it.sku})\\n`);
+  alert(text);
+}
+
+/* load products from sheet */
+async function loadProducts(){
+  try{
+    const res = await fetch(SHEET_URL);
+    const data = await res.json();
+    PRODUCTS = {};
+    data.forEach((p,idx)=>{
+      const id = p.sku || 'p'+idx;
+      const gallery = (p.image_gallery && p.image_gallery.trim()) ? p.image_gallery.split(',').map(s=>s.trim()) : (p.image_url ? [p.image_url] : (p.image ? [p.image] : []));
+      PRODUCTS[id] = {
+        id,
+        name: p.name || p.title || `Product ${idx+1}`,
+        price: Number(p.price) || 0,
+        sku: p.sku || '',
+        desc: p.description || p.desc || '',
+        gallery,
+        category: (p.category||'').toString().trim().toLowerCase()
+      };
+    });
+
+    renderCategoryBar();
+    renderGrid();
+    updateBadges();
+  }catch(err){
+    console.error('loadProducts error',err);
+    productGrid.innerHTML = '<p style="color:#666">Failed to load products.</p>';
+  }
+}
+loadProducts();
+
+/* render category bar from known list but only show if products exist */
+const desired = ['rings','earrings','anklets','chains','pendants','pendant sets','bracelets','bangles'];
+function renderCategoryBar(){
+  const present = ['All', ...desired.filter(c=> Object.values(PRODUCTS).some(p=>p.category===c))];
+  catBar.innerHTML = present.map(c=>{
+    const label = c[0].toUpperCase()+c.slice(1);
+    return `<button class="cat-btn ${c==='All'?'active':''}" data-cat="${c}">${label}</button>`;
+  }).join('');
+  // attach events
+  document.querySelectorAll('.cat-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('.cat-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      filterByCategory(b.dataset.cat);
+      window.scrollTo({top: document.querySelector('#productGrid')?.offsetTop - 80 || 0, behavior:'smooth'});
+    });
+  });
+}
+
+/* render grid */
+function renderGrid(){
+  productGrid.innerHTML = '';
+  const items = Object.values(PRODUCTS).filter(p=>{
+    if(CURRENT_CAT === 'All' || !CURRENT_CAT) return true;
+    return p.category === CURRENT_CAT;
+  });
+  if(!items.length){ productGrid.innerHTML = `<p style="color:var(--muted)">No products in this category.</p>`; return; }
+  items.forEach(p=>{
+    const el = document.createElement('div');
+    el.className = 'card';
+    const img = (p.gallery && p.gallery.length) ? p.gallery[0] : 'https://via.placeholder.com/400x300?text=No+Image';
+    el.innerHTML = `<div class="imgwrap"><img src="${img}" alt="${p.name}"></div>
+      <div class="meta"><div class="title">${p.name}</div><div class="price">₹${Number(p.price).toLocaleString()}</div></div>`;
+    el.addEventListener('click', ()=> openDetail(p.id));
+    productGrid.appendChild(el);
+  });
+}
+
+/* filter */
+function filterByCategory(cat){
+  CURRENT_CAT = cat==='All' ? 'All' : cat;
+  // update active
+  document.querySelectorAll('.cat-btn').forEach(b=> b.classList.toggle('active', b.dataset.cat === cat));
+  renderGrid();
+}
+
+/* product detail slide-up but keep header visible */
+function openDetail(id){
+  const p = PRODUCTS[id];
+  if(!p) return;
+  // create simple modal that keeps header visible
+  const modal = document.createElement('div');
+  modal.style.position='fixed'; modal.style.left='50%'; modal.style.top='90px';
+  modal.style.transform='translateX(-50%)'; modal.style.width='min(900px,96vw)'; modal.style.maxHeight='calc(100vh - 140px)';
+  modal.style.overflow='auto'; modal.style.background='#fff'; modal.style.boxShadow='0 16px 50px rgba(0,0,0,0.12)';
+  modal.style.borderRadius='10px'; modal.style.zIndex=1300; modal.id='productModal';
+  modal.innerHTML = `<div style="padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,0.06)">
+    <div style="font-weight:800">${p.name}</div>
+    <div><button id="closeModal" class="menu-btn">Close</button></div>
+  </div>
+  <div style="display:flex;gap:16px;padding:16px;flex-wrap:wrap">
+    <div style="flex:1;min-width:260px"><img src="${p.gallery[0]||''}" style="width:100%;border-radius:8px;object-fit:contain"></div>
+    <div style="flex:1;min-width:260px">
+      <div style="font-weight:700;font-size:18px">₹${Number(p.price).toLocaleString()}</div>
+      <div style="margin-top:8px;color:${getComputedStyle(document.documentElement).getPropertyValue('--muted')||'#666'}">${p.desc}</div>
+      <div style="margin-top:12px"><button id="addCartBtn" class="cat-btn">Add to cart</button></div>
     </div>
-  </header>
+  </div>`;
+  document.body.appendChild(modal);
+  document.getElementById('closeModal').addEventListener('click', ()=> { modal.remove(); });
+  document.getElementById('addCartBtn').addEventListener('click', ()=> {
+    addToCart(p);
+    modal.remove();
+  });
+}
 
-  <main>
-    <section class="hero">
-      <div class="container hero-inner">
-        <div class="hero-copy">
-          <h2 class="hero-title">Whispers of the moon. Stories in silver.</h2>
-          <p class="hero-lead">Handcrafted, nature-inspired pieces that carry light, leaf, and tide. Each design is a verse—worn close to the heart.</p>
-          <a class="cta" id="discover-btn" href="#about">Discover the Story</a>
-        </div>
-        <div class="hero-art">
-          <!-- placeholder pendant silhouette -->
-          <svg class="pendant" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pendant illustration">
-            <defs>
-              <linearGradient id="g" x1="0" x2="1">
-                <stop offset="0" stop-color="#e6e6e6"/>
-                <stop offset="1" stop-color="#cfcfcf"/>
-              </linearGradient>
-            </defs>
-            <circle cx="150" cy="150" r="100" fill="url(#g)"/>
-            <path d="M150 80 q20 30 0 60 q-20 30 0 60 q-20 -30 -40 -60 q20 -30 40 -60z" fill="#f8f8f8" opacity="0.6"/>
-            <path d="M150 30 v40" stroke="#bfbfbf" stroke-width="4" stroke-linecap="round"/>
-          </svg>
-        </div>
-      </div>
-    </section>
+/* cart handling using localStorage */
+function addToCart(product){
+  const cart = JSON.parse(localStorage.getItem('iv_cart')||'{}');
+  if(!cart[product.id]) cart[product.id] = { ...product, qty:0 };
+  cart[product.id].qty = (cart[product.id].qty||0) + 1;
+  localStorage.setItem('iv_cart', JSON.stringify(cart));
+  renderCart();
+  updateBadges();
+  // brief feedback
+  alert('Added to cart');
+}
 
-    <section id="about" class="about">
-      <div class="container">
-        <h3>Our Story</h3>
-        <p class="lead">Born from nature’s rhythm, Iviya crafts silver jewellery that reads like a poem. We blend traditional silversmithing with delicate organic forms—leaves, moonlit curves, and tide‑worn textures—to create pieces that feel both ancestral and contemporary.</p>
-        <div class="about-grid">
-          <div class="about-card">
-            <h4>Handcrafted</h4>
-            <p>Each piece is lovingly forged by hand using ethically sourced silver and time-honoured techniques.</p>
-          </div>
-          <div class="about-card">
-            <h4>Nature Inspired</h4>
-            <p>Designs celebrate botanical forms, lunar motifs, and flowing lines—bringing the outdoors into wearable art.</p>
-          </div>
-          <div class="about-card">
-            <h4>Limited Editions</h4>
-            <p>Small-batch collections ensure rarity and attention to detail—pieces that feel like personal talismans.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+function renderCart(){
+  const cart = JSON.parse(localStorage.getItem('iv_cart')||'{}');
+  const ids = Object.keys(cart);
+  if(!ids.length){ cartBody.innerHTML = '<p style="color:var(--muted)">Cart is empty</p>'; document.getElementById('cartTotal').textContent='₹0'; return; }
+  let total = 0;
+  cartBody.innerHTML = '';
+  ids.forEach(id=>{
+    const it = cart[id];
+    total += (it.price||0)*(it.qty||0);
+    const row = document.createElement('div');
+    row.style.display='flex'; row.style.gap='10px'; row.style.alignItems='center'; row.style.marginBottom='12px';
+    row.innerHTML = `<img src="${it.gallery[0]||''}" style="width:64px;height:64px;object-fit:cover;border-radius:6px">
+      <div style="flex:1"><div style="font-weight:700">${it.name}</div><div style="color:var(--muted)">SKU: ${it.sku||''} • ₹${it.price} × ${it.qty}</div></div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="menu-btn dec" data-id="${id}">−</button>
+        <button class="menu-btn inc" data-id="${id}">+</button>
+      </div>`;
+    cartBody.appendChild(row);
+  });
+  document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
+  // attach inc/dec handlers
+  document.querySelectorAll('.inc').forEach(b=>{
+    b.addEventListener('click', ()=> {
+      const id = b.dataset.id; const cartObj = JSON.parse(localStorage.getItem('iv_cart')||'{}'); cartObj[id].qty = (cartObj[id].qty||0)+1; localStorage.setItem('iv_cart', JSON.stringify(cartObj)); renderCart(); updateBadges();
+    });
+  });
+  document.querySelectorAll('.dec').forEach(b=>{
+    b.addEventListener('click', ()=> {
+      const id = b.dataset.id; const cartObj = JSON.parse(localStorage.getItem('iv_cart')||'{}'); cartObj[id].qty = Math.max(0,(cartObj[id].qty||0)-1); if(cartObj[id].qty===0) delete cartObj[id]; localStorage.setItem('iv_cart', JSON.stringify(cartObj)); renderCart(); updateBadges();
+    });
+  });
+}
 
-    <section id="collections" class="collections">
-      <div class="container">
-        <h3>Signature Collections</h3>
-        <p class="muted">Explore four poetic series—Moonlight, Bloom, Vines, Waves.</p>
+/* badges */
+function updateBadges(){
+  const wish = JSON.parse(localStorage.getItem('iv_wishlist')||'[]');
+  const cart = JSON.parse(localStorage.getItem('iv_cart')||'{}');
+  wishBadge.style.display = wish.length ? 'inline-block' : 'none';
+  wishBadge.textContent = wish.length;
+  const qty = Object.values(cart).reduce((s,i)=> s + (i.qty||0), 0);
+  cartBadge.style.display = qty ? 'inline-block' : 'none';
+  cartBadge.textContent = qty;
+}
 
-        <div class="grid collections-grid">
-          <article class="card">
-            <figure class="card-media">
-              <svg viewBox="0 0 200 140" class="card-img"><rect width="200" height="140" rx="8" ry="8" /></svg>
-            </figure>
-            <div class="card-body">
-              <h4>Moonlight</h4>
-              <p>Soft curves and hammered textures inspired by moonlit tides.</p>
-            </div>
-          </article>
+/* checkout */
+checkoutBtn.addEventListener('click', ()=> {
+  const cart = JSON.parse(localStorage.getItem('iv_cart')||'{}');
+  const ids = Object.keys(cart);
+  if(!ids.length) return alert('Cart empty');
+  let lines = []; let total = 0;
+  ids.forEach((id,idx)=>{
+    const it = cart[id];
+    total += (it.price||0)*(it.qty||0);
+    lines.push(`${idx+1}. ${it.name} (SKU: ${it.sku||''})\n₹${it.price.toLocaleString()} × ${it.qty}\n${it.gallery[0]||''}`);
+  });
+  const msg = encodeURIComponent(`💎 iViya – Silver Tales Order\n\n🛍️ Cart Items:\n${lines.join('\n')}\n\n💰 Total: ₹${total.toLocaleString()}\n\n📍 Please confirm your delivery address.`);
+  window.open(`https://wa.me/919876543210?text=${msg}`,'_blank');
+});
 
-          <article class="card">
-            <figure class="card-media">
-              <svg viewBox="0 0 200 140" class="card-img"><rect width="200" height="140" rx="8" ry="8" /></svg>
-            </figure>
-            <div class="card-body">
-              <h4>Bloom</h4>
-              <p>Delicate floral motifs with layered silver petals.</p>
-            </div>
-          </article>
-
-          <article class="card">
-            <figure class="card-media">
-              <svg viewBox="0 0 200 140" class="card-img"><rect width="200" height="140" rx="8" ry="8" /></svg>
-            </figure>
-            <div class="card-body">
-              <h4>Vines</h4>
-              <p>Intertwining lines that echo climbing vines and wild growth.</p>
-            </div>
-          </article>
-
-          <article class="card">
-            <figure class="card-media">
-              <svg viewBox="0 0 200 140" class="card-img"><rect width="200" height="140" rx="8" ry="8" /></svg>
-            </figure>
-            <div class="card-body">
-              <h4>Waves</h4>
-              <p>Fluid, undulating forms that capture the motion of water and tide.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="contact">
-      <div class="container">
-        <h3>Contact</h3>
-        <p class="muted">For commissions, stockists, or enquiries: hello@iviyasilvertales.com</p>
-
-        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message simulated — replace with your backend or form service.');">
-          <div class="form-row"><input type="text" name="name" placeholder="Your name" required></div>
-          <div class="form-row"><input type="email" name="email" placeholder="Email" required></div>
-          <div class="form-row"><textarea name="message" placeholder="Tell us about your enquiry" rows="4" required></textarea></div>
-          <div class="form-row"><button type="submit" class="btn">Send Message</button></div>
-        </form>
-
-        <div class="social">
-          <a href="#" aria-label="Instagram">Instagram</a> · <a href="#" aria-label="Pinterest">Pinterest</a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© <span id="year"></span> Iviya — Silver Tales. Nature's Poetry in Silver.</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
+/* initial render */
+function renderGrid(){ /* placeholder until products loaded */ productGrid.innerHTML = '<p style="color:var(--muted)">Loading...</p>'; }
+renderGrid();
+renderCart();
+updateBadges();
+</script>
 </body>
 </html>
