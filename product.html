@@ -1,1 +1,259 @@
-<h1>Product Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Product – iViya</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+:root{
+  --muted:#6b7280;
+  --accent:#111;
+  --silver:#8f9aa3;
+  --panel:#fff;
+  --header-height:72px;
+}
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:#f6f6f7;
+  color:var(--accent);
+}
+
+/* ---------- HEADER (reuse same as index.html) ---------- */
+.header{
+  position:fixed;
+  top:0; left:0; right:0;
+  height:var(--header-height);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 16px;
+  background:#fff;
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  z-index:1000;
+}
+
+.logo .title{font-weight:700;font-size:18px}
+.logo .tag{font-size:12px;color:var(--muted)}
+
+.right-icons{display:flex;gap:12px}
+.icon-btn{background:none;border:none;cursor:pointer;font-size:18px}
+
+/* ---------- PAGE LAYOUT ---------- */
+main{
+  max-width:1200px;
+  margin:calc(var(--header-height) + 24px) auto 80px;
+  padding:0 16px;
+}
+
+.product-wrap{
+  display:grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap:32px;
+}
+
+/* ---------- IMAGES ---------- */
+.main-img{
+  width:100%;
+  height:420px;
+  object-fit:contain;
+  border-radius:12px;
+  background:#fafafa;
+}
+
+.thumb-row{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+.thumb-row img{
+  width:72px;
+  height:72px;
+  object-fit:cover;
+  border-radius:8px;
+  cursor:pointer;
+  border:1px solid #ddd;
+}
+
+.thumb-row img.active{
+  border:2px solid #111;
+}
+
+/* ---------- DETAILS ---------- */
+.product-title{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+
+.price{
+  font-size:20px;
+  font-weight:800;
+  color:var(--silver);
+  margin-bottom:12px;
+}
+
+.desc{
+  color:#444;
+  margin-bottom:14px;
+}
+
+.meta{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:20px;
+}
+
+.actions{
+  display:flex;
+  gap:12px;
+}
+
+.btn{
+  padding:12px 18px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.btn-cart{
+  background:#111;
+  color:#fff;
+}
+
+.btn-wish{
+  background:#fff;
+  border:1px solid #ccc;
+}
+
+/* ---------- MOBILE ---------- */
+@media(max-width:900px){
+  .product-wrap{
+    grid-template-columns:1fr;
+  }
+  .main-img{
+    height:340px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <div class="title">iViya</div>
+    <div class="tag">Silver Tales</div>
+  </div>
+  <div class="right-icons">
+    <button class="icon-btn"><i class="fa-regular fa-heart"></i></button>
+    <button class="icon-btn"><i class="fa-solid fa-bag-shopping"></i></button>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<main>
+  <section id="productPage">Loading…</section>
+</main>
+
+<script>
+/* ---------- CONFIG ---------- */
+const SHEET_URL =
+  'https://opensheet.elk.sh/1-ZrGnfPbTtmStHS8kWvQUHt7pnVMUjEb8TK7iloYoBs/Sheet1';
+
+/* ---------- HELPERS ---------- */
+const params = new URLSearchParams(window.location.search);
+const SKU = params.get('sku');
+
+/* ---------- LOAD PRODUCT ---------- */
+async function loadProduct(){
+  if(!SKU){
+    document.getElementById('productPage').innerHTML =
+      '<p>Invalid product.</p>';
+    return;
+  }
+
+  const res = await fetch(SHEET_URL);
+  const data = await res.json();
+
+  const p = data.find(x => x.sku === SKU);
+  if(!p){
+    document.getElementById('productPage').innerHTML =
+      '<p>Product not found.</p>';
+    return;
+  }
+
+  const gallery =
+    p.image_gallery
+      ? p.image_gallery.split(',').map(s => s.trim())
+      : [p.image_url];
+
+  renderProduct(p, gallery);
+}
+
+/* ---------- RENDER ---------- */
+function renderProduct(p, gallery){
+  const html = `
+    <div class="product-wrap">
+
+      <!-- LEFT : IMAGES -->
+      <div>
+        <img id="mainImg" class="main-img" src="${gallery[0]}" alt="${p.name}">
+        ${gallery.length > 1 ? `
+          <div class="thumb-row">
+            ${gallery.map((img,i)=>`
+              <img src="${img}" class="${i===0?'active':''}" data-img="${img}">
+            `).join('')}
+          </div>
+        `:''}
+      </div>
+
+      <!-- RIGHT : DETAILS -->
+      <div>
+        <div class="product-title">${p.name}</div>
+        <div class="price">₹${Number(p.price).toLocaleString()}</div>
+        <div class="desc">${p.description || ''}</div>
+
+        <div class="meta">
+          <div>Metal: ${p.metal || 'Silver'}</div>
+          <div>Weight: ${p.weight || '-'} g</div>
+          <div>SKU: ${p.sku}</div>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-cart">Add to Cart</button>
+          <button class="btn btn-wish"><i class="fa-regular fa-heart"></i></button>
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  const root = document.getElementById('productPage');
+  root.innerHTML = html;
+
+  /* thumbnail switching */
+  const mainImg = document.getElementById('mainImg');
+  root.querySelectorAll('[data-img]').forEach(t=>{
+    t.addEventListener('click', ()=>{
+      mainImg.src = t.dataset.img;
+      root.querySelectorAll('[data-img]')
+        .forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+    });
+  });
+}
+
+loadProduct();
+</script>
+
+</body>
+</html>

@@ -300,7 +300,9 @@ function renderGrid(){
     const img = (p.gallery && p.gallery.length) ? p.gallery[0] : 'https://via.placeholder.com/400x300?text=No+Image';
     el.innerHTML = `<div class="imgwrap"><img src="${img}" alt="${p.name}"></div>
       <div class="meta"><div class="title">${p.name}</div><div class="price">₹${Number(p.price).toLocaleString()}</div></div>`;
-    el.addEventListener('click', ()=> openDetail(p.id));
+    el.addEventListener('click', () => {
+      window.location.href = `product.html?sku=${p.sku}`;
+    });
     productGrid.appendChild(el);
   });
 }
