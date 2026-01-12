@@ -131,14 +131,14 @@ main { max-width:1100px; margin:calc(var(--header-height) + 20px) auto 120px; pa
     <li data-link="about" class="menu-link">About</li>
     <li id="collectionsToggle">Collections ▾
       <ul class="sublist" id="collectionsSub">
-        <li class="sublink" data-cat="Rings">Rings</li>
-        <li class="sublink" data-cat="Earrings">Earrings</li>
-        <li class="sublink" data-cat="Anklets">Anklets</li>
-        <li class="sublink" data-cat="Chains">Chains</li>
-        <li class="sublink" data-cat="Pendants">Pendants</li>
-        <li class="sublink" data-cat="Pendant sets">Pendant Sets</li>
-        <li class="sublink" data-cat="Bracelets">Bracelets</li>
-        <li class="sublink" data-cat="Bangles">Bangles</li>
+        <li class="sublink" data-cat="rings">Rings</li>
+        <li class="sublink" data-cat="earrings">Earrings</li>
+        <li class="sublink" data-cat="anklets">Anklets</li>
+        <li class="sublink" data-cat="chains">Chains</li>
+        <li class="sublink" data-cat="pendants">Pendants</li>
+        <li class="sublink" data-cat="pendant sets">Pendant Sets</li>
+        <li class="sublink" data-cat="bracelets">Bracelets</li>
+        <li class="sublink" data-cat="bangles">Bangles</li>
       </ul>
     </li>
   </ul>
@@ -307,9 +307,10 @@ function renderGrid(){
 
 /* filter */
 function filterByCategory(cat){
-  CURRENT_CAT = cat==='All' ? 'All' : cat;
-  // update active
-  document.querySelectorAll('.cat-btn').forEach(b=> b.classList.toggle('active', b.dataset.cat === cat));
+  CURRENT_CAT = cat === 'All' ? 'All' : cat.toLowerCase();
+  document.querySelectorAll('.cat-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.cat.toLowerCase() === CURRENT_CAT)
+  );
   renderGrid();
 }
 
@@ -414,9 +415,6 @@ checkoutBtn.addEventListener('click', ()=> {
   window.open(`https://wa.me/919080816049?text=${msg}`,'_blank');
 });
 
-/* initial render */
-function renderGrid(){ /* placeholder until products loaded */ productGrid.innerHTML = '<p style="color:var(--muted)">Loading...</p>'; }
-renderGrid();
 renderCart();
 updateBadges();
 </script>
