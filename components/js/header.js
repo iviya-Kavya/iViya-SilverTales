@@ -1,7 +1,8 @@
 async function loadHeader(){
-  const res = await fetch('components/header.html');
-  const html = await res.text();
-  document.getElementById('site-header').innerHTML = html;
-}
+  const root = document.getElementById('site-header');
+  if(!root) return;
 
+  const res = await fetch('components/header.html');
+  root.innerHTML = await res.text();
+}
 loadHeader();
