@@ -131,14 +131,14 @@ main { max-width:1100px; margin:calc(var(--header-height) + 20px) auto 120px; pa
     <li data-link="about" class="menu-link">About</li>
     <li id="collectionsToggle">Collections ▾
       <ul class="sublist" id="collectionsSub">
-        <li class="sublink" data-cat="rings">Rings</li>
-        <li class="sublink" data-cat="earrings">Earrings</li>
-        <li class="sublink" data-cat="anklets">Anklets</li>
-        <li class="sublink" data-cat="chains">Chains</li>
-        <li class="sublink" data-cat="pendants">Pendants</li>
-        <li class="sublink" data-cat="pendant sets">Pendant Sets</li>
-        <li class="sublink" data-cat="bracelets">Bracelets</li>
-        <li class="sublink" data-cat="bangles">Bangles</li>
+        <li class="sublink" data-cat="Rings">Rings</li>
+        <li class="sublink" data-cat="Earrings">Earrings</li>
+        <li class="sublink" data-cat="Anklets">Anklets</li>
+        <li class="sublink" data-cat="Chains">Chains</li>
+        <li class="sublink" data-cat="Pendants">Pendants</li>
+        <li class="sublink" data-cat="Pendant sets">Pendant Sets</li>
+        <li class="sublink" data-cat="Bracelets">Bracelets</li>
+        <li class="sublink" data-cat="Bangles">Bangles</li>
       </ul>
     </li>
   </ul>
@@ -199,7 +199,7 @@ navCart.addEventListener('click', ()=> toggleCartPanel());
 navLogin.addEventListener('click', ()=> alert('Login placeholder'));
 navSignup.addEventListener('click', ()=> alert('Signup placeholder'));
 navContact.addEventListener('click', ()=> window.location.href='mailto:contact@iviyasilver.com');
-navWhatsApp.addEventListener('click', ()=> window.open('https://wa.me/919876543210','_blank'));
+navWhatsApp.addEventListener('click', ()=> window.open('https://wa.me/919080816049','_blank'));
 
 /* side menu behavior */
 sideMenu.addEventListener('click', (e)=>{
@@ -411,7 +411,7 @@ checkoutBtn.addEventListener('click', ()=> {
     lines.push(`${idx+1}. ${it.name} (SKU: ${it.sku||''})\n₹${it.price.toLocaleString()} × ${it.qty}\n${it.gallery[0]||''}`);
   });
   const msg = encodeURIComponent(`💎 iViya – Silver Tales Order\n\n🛍️ Cart Items:\n${lines.join('\n')}\n\n💰 Total: ₹${total.toLocaleString()}\n\n📍 Please confirm your delivery address.`);
-  window.open(`https://wa.me/919876543210?text=${msg}`,'_blank');
+  window.open(`https://wa.me/919080816049?text=${msg}`,'_blank');
 });
 
 /* initial render */
