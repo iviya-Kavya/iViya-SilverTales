@@ -329,13 +329,36 @@ function openDetail(id){
     <div><button id="closeModal" class="menu-btn">Close</button></div>
   </div>
   <div style="display:flex;gap:16px;padding:16px;flex-wrap:wrap">
-    <div style="flex:1;min-width:260px"><img src="${p.gallery[0]||''}" style="width:100%;border-radius:8px;object-fit:contain"></div>
+    <div style="flex:1;min-width:260px">
+      <img id="mainImage" src="${p.gallery[0] || ''}"
+          style="width:100%;border-radius:8px;object-fit:contain">
+
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        ${p.gallery.map((img, i) => `
+          <img src="${img}"
+              data-idx="${i}"
+              style="width:64px;height:64px;object-fit:cover;
+                      border-radius:6px;cursor:pointer;
+                      border:${i===0?'2px solid #111':'1px solid #ddd'}">
+        `).join('')}
+      </div>
+    </div>
     <div style="flex:1;min-width:260px">
       <div style="font-weight:700;font-size:18px">₹${Number(p.price).toLocaleString()}</div>
       <div style="margin-top:8px;color:${getComputedStyle(document.documentElement).getPropertyValue('--muted')||'#666'}">${p.desc}</div>
       <div style="margin-top:12px"><button id="addCartBtn" class="cat-btn">Add to cart</button></div>
     </div>
   </div>`;
+  const mainImg = modal.querySelector('#mainImage');
+  modal.querySelectorAll('[data-idx]').forEach(t => {
+  t.addEventListener('click', () => {
+    mainImg.src = t.src;
+    modal.querySelectorAll('[data-idx]').forEach(x =>
+      x.style.border = '1px solid #ddd'
+    );
+    t.style.border = '2px solid #111';
+  });
+});
   document.body.appendChild(modal);
   document.getElementById('closeModal').addEventListener('click', ()=> { modal.remove(); });
   document.getElementById('addCartBtn').addEventListener('click', ()=> {
